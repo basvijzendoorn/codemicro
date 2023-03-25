@@ -24,17 +24,16 @@ export class CodeviewerComponent implements OnInit {
     this.codeService.getCode().subscribe(
       (code) => {
         this.code = code;
-        // alert(this.code);
       }
     );
   }
 
   getCode(): string {
-    // var code = `function myFunction() {
-    //   document.getElementById("demo1").innerHTML = "Test 1!";
-    //   document.getElementById("demo2").innerHTML = "Test 2!";
-    // }
-    // `;
+    var code = `function myFunction() {
+      document.getElementById("demo1").innerHTML = "Test 1!";
+      document.getElementById("demo2").innerHTML = "Test 2!";
+    }
+    `;
 
     return this.code;
     // return code;
