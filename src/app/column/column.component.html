@@ -1,0 +1,32 @@
+<!-- <mat-grid-list cols="8">
+  <mat-grid-tile colspan="2"> -->
+<div id="outer">
+  <div id="settings">
+    <div cdkDropList (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let column of columns" cdkDrag class='column'>
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        {{column.name}}
+      </div>
+    </div>
+
+    <label class="btn-primary" ngbButtonLabel (click)="add()">Add</label>
+  </div>
+
+  <app-exploretree></app-exploretree>
+
+
+  <!-- <mat-tree>
+    <mat-tree-node>
+      abc
+    </mat-tree-node>
+  </mat-tree> -->
+    <pre><code [highlight]="code" [languages]="['typescript']"  (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
+  <!-- </mat-grid-tile> -->
+  <!-- <mat-grid-tile colspan="6"> -->
+
+</div>
+
+  <!-- </mat-grid-tile> -->
+<!-- </mat-grid-list> -->
+
+
