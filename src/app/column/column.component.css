@@ -1,14 +1,6 @@
-.column {
-  border: 1px solid #DFDADA;
-  padding: 5px 5px 5px 5px;
-  margin: 10px 10px 10px 10px;
-  max-width: 500px;
-  cursor: grab;
-}
-
-app-codeviewer {
+/* app-codeviewer {
   width:100%;
-}
+} */
 
 div#outer {
   display: flex;

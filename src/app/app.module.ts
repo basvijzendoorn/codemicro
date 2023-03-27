@@ -15,7 +15,14 @@ import {MatIconModule} from '@angular/material/icon';
 import { CodeviewerComponent } from './codeviewer/codeviewer.component';
 import { HttpClientModule } from '@angular/common/http';
 import {MatGridListModule} from '@angular/material/grid-list';
-
+import { TablesComponent } from './tables/tables.component';
+import { TableComponent } from './table/table.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FieldsettingsComponent } from './fieldsettings/fieldsettings.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -24,7 +31,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
     AppComponent,
     ColumnComponent,
     ExploretreeComponent,
-    CodeviewerComponent
+    CodeviewerComponent,
+    TablesComponent,
+    TableComponent,
+    FieldsettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +47,12 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatTreeModule,
     MatIconModule,
     HttpClientModule,
-    MatGridListModule
+    MatGridListModule,
+    MatExpansionModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {

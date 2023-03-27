@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HighlightLoader } from 'ngx-highlightjs';
-import { CodeService } from '../code.service';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-codeviewer',

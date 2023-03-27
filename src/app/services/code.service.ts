@@ -21,6 +21,4 @@ export class CodeService {
     // return of(this.code);
     return this.http.get("/api", {responseType: 'text'});
   }
-
-
 }

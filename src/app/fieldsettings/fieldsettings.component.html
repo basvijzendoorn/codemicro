@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Field Settings</h2>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [value]="getField().name" required #name>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save(name.value)">Save</button>
+</div>

@@ -1,0 +1,37 @@
+<!-- <div>
+  <app-table></app-table>
+  <label class="btn-primary" ngbButtonLabel (click)="add()">Add Table</label>
+</div> -->
+
+<div>
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let table of getTables(); let tableIndex = index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h4>{{table.name}}</h4>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <app-table [tableIndex]="tableIndex"></app-table>
+    </mat-expansion-panel>
+    <!-- <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h4>{{table.name}}</h4>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <app-table></app-table>
+    </mat-expansion-panel> -->
+  </mat-accordion>
+</div>
+
+
+<div class="tableButtons">
+    <!-- <button mat-button color="primary" (click)="add()">Add Table</button> -->
+  <button mat-raised-button color="primary">Add Table</button>
+  <!-- <label class="btn-primary" ngbButtonLabel (click)="add()">Add Table</label> -->
+  <button mat-raised-button>Table Settings</button>
+  <!-- <label class="btn-basic" ngbButtonLabel (click)="add()">Table Settings</label> -->
+
+</div>
