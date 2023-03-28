@@ -1,0 +1,15 @@
+.tableRow {
+  border: 1px solid #DFDADA;
+  padding: 5px 5px 5px 5px;
+  margin: 10px 0px 10px 0px;
+  min-width: 500px;
+  cursor: grab;
+}
+div.table {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}
+mat-form-field.tableName {
+  flex-grow: 4;
+}

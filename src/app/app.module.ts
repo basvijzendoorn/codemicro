@@ -19,10 +19,14 @@ import { TablesComponent } from './tables/tables.component';
 import { TableComponent } from './table/table.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FieldsettingsComponent } from './fieldsettings/fieldsettings.component';
+import { FieldSettingsDialogComponent } from './fieldsettingsdialog/fieldsettingsdialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AddfielddialogComponent } from './addfielddialog/addfielddialog.component';
+import { AddtabledialogComponent } from './addtabledialog/addtabledialog.component';
+import { TablesettingsdialogComponent } from './tablesettingsdialog/tablesettingsdialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -34,7 +38,10 @@ import { MatInputModule } from '@angular/material/input';
     CodeviewerComponent,
     TablesComponent,
     TableComponent,
-    FieldsettingsComponent
+    FieldSettingsDialogComponent,
+    AddfielddialogComponent,
+    AddtabledialogComponent,
+    TablesettingsdialogComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,8 @@ import { MatInputModule } from '@angular/material/input';
     BrowserAnimationsModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

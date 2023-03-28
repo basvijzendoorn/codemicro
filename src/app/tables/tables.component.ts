@@ -1,6 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
+import { AddtabledialogComponent } from '../addtabledialog/addtabledialog.component';
 import { TableSettingsService } from '../services/table-settings.service';
+import { TablesettingsdialogComponent } from '../tablesettingsdialog/tablesettingsdialog.component';
 
 
 @Component({
@@ -10,7 +14,8 @@ import { TableSettingsService } from '../services/table-settings.service';
 })
 export class TablesComponent implements OnInit {
 
-  constructor(private tableSettingsService: TableSettingsService) { }
+  constructor(private tableSettingsService: TableSettingsService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +24,11 @@ export class TablesComponent implements OnInit {
     return this.tableSettingsService.getTables();
   }
 
-  add() {
-  
+  addTable() {
+    this.dialog.open(AddtabledialogComponent)
+  }
+
+  openTableSettingsDialog() {
+    this.dialog.open(TablesettingsdialogComponent)
   }
 }

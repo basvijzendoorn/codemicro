@@ -2,13 +2,15 @@
   <div *ngFor="let field of getTable().fields; let fieldIndex = index;" cdkDrag class='column'>
     <div *cdkDragPlaceholder></div>
     <div class='field'>
-      <div class='fieldName'>{{field.name}}</div>
-      <button mat-button color="primary" (click)="openDialog(fieldIndex)">Settings</button>
+      <div class='fieldName'>
+        {{field.name}}
+      </div>
+      <button mat-button color="primary" (click)="openSettingsDialog(fieldIndex)">Settings</button>
       <button mat-icon-button>
-        <mat-icon color="warn">close</mat-icon>
+        <mat-icon color="warn" (click)="delete(fieldIndex)">close</mat-icon>
       </button>
     </div>
   </div>
 </div>
 
-<button mat-raised-button color="primary" (click)="add()">Add Field</button>
+<button mat-raised-button color="primary" (click)="openAddFieldDialog()">Add Field</button>

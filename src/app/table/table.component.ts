@@ -1,7 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FieldsettingsComponent } from '../fieldsettings/fieldsettings.component';
+import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
+import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
 import { fieldSettings, tableSettings, TableSettingsService } from '../services/table-settings.service';
 
 // export enum dataType {
@@ -51,14 +52,24 @@ export class TableComponent implements OnInit {
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
 
-  add() {
-    this.getTable().fields = this.getTable().fields.concat([{
-      name: "newColumn",
-    }]);
+  // add() {
+  //   this.getTable().fields = this.getTable().fields.concat([{
+  //     name: "newColumn",
+  //   }]);
+  // }
+
+  openAddFieldDialog() {
+    this.dialog.open(AddfielddialogComponent, {
+      data: this.tableIndex
+    })
   }
 
-  openDialog(fieldIndex: number) {
-    this.dialog.open(FieldsettingsComponent, {
+  delete(fieldIndex: number) {
+    this.getTable().fields.splice(fieldIndex, 1)
+  }
+
+  openSettingsDialog(fieldIndex: number) {
+    this.dialog.open(FieldSettingsDialogComponent, {
       data: {
         tableIndex: this.tableIndex,
         fieldIndex: fieldIndex

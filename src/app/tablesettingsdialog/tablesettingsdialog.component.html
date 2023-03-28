@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Change Tables</h2>
+
+<div mat-dialog-content>
+  <div cdkDropList (cdkDropListDropped)="drop($event)">
+    <div *ngFor="let table of getTables(); let tableIndex = index;" cdkDrag class='tableRow'>
+      <div *cdkDragPlaceholder></div>
+      <div class='table'>
+        <mat-form-field appearance="fill" class="tableName">
+          <mat-label>Table Name</mat-label>
+          <!-- <input matInput [value]="table.name" required> -->
+          <input matInput [formControl]="table" required>
+        </mat-form-field>
+        <!-- <div class='tableName'>{{table.name}}</div> -->
+        <!-- <button mat-button color="primary" (click)="openSettingsDialog(fieldIndex)">Settings</button> -->
+        <button mat-icon-button>
+          <mat-icon color="warn" (click)="delete(tableIndex)">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button mat-dialog-close color="primary" (click)="save()">Save</button>
+</div>

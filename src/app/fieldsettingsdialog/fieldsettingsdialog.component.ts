@@ -8,11 +8,11 @@ interface tableAndFieldIndices {
 }
 
 @Component({
-  selector: 'app-fieldsettings',
-  templateUrl: './fieldsettings.component.html',
-  styleUrls: ['./fieldsettings.component.css']
+  selector: 'app-fieldsettingsdialog',
+  templateUrl: './fieldsettingsdialog.component.html',
+  styleUrls: ['./fieldsettingsdialog.component.css']
 })
-export class FieldsettingsComponent implements OnInit {
+export class FieldSettingsDialogComponent implements OnInit {
 
   constructor(private tableSettingsService: TableSettingsService,
     @Inject(MAT_DIALOG_DATA) public tableAndFieldIndices: tableAndFieldIndices ) { }
