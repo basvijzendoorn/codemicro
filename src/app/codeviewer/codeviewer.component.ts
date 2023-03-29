@@ -21,7 +21,7 @@ export class CodeviewerComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.codeService.getCode().subscribe(
+    this.codeService.getControllerCode().subscribe(
       (code) => {
         this.code = code;
       }

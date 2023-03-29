@@ -16,12 +16,12 @@ export interface tableSettings {
 export class TableSettingsService {
 
   tables: tableSettings[] = [{
-    name: "First table",
+    name: "FirstTable",
     fields: [
-      {name: "id"}
+      {name: "bas"}
     ]
   }, {
-    name: "Second table",
+    name: "SecondTable",
     fields: [
       {name: "title"}
     ]

@@ -11,24 +11,10 @@ import { fieldSettings, tableSettings, TableSettingsService } from '../services/
 export class TablesettingsdialogComponent implements OnInit {
 
   tableSettingsList: tableSettings[] = [];
-
-  public item = {
-    field: [ '', [ Validators.required ] ]
-  };
-
-  form = this.fb.group({
-  });
+  form = this.formBuilder.group({});
 
   constructor(private tableSettingsService: TableSettingsService,
-    private fb:FormBuilder ) { }
-
-  //@ViewChild('tn') tn: any;
-
-  // formGroup: FormGroup = new FormGroup({
-  //   1: new FormControl(''),
-  //   2: new FormControl('')
-  // })
-
+    private formBuilder:FormBuilder ) { }
 
   ngOnInit(): void {
     this.tableSettingsList = JSON.parse(JSON.stringify(this.tableSettingsService.getTables()));
@@ -39,37 +25,35 @@ export class TablesettingsdialogComponent implements OnInit {
        tableFormControls.push(this.createTable(tableSettings.name));
     })
 
-    this.form = this.fb.group({
-      tables: this.fb.array(tableFormControls)
+    this.form = this.formBuilder.group({
+      tables: this.formBuilder.array(tableFormControls)
     })
   }
 
   public createTable(tableName: string): FormControl {
-    const tableFormController = this.fb.control({
+    const tableFormController = this.formBuilder.control({
       field: [ '', [ Validators.required ] ]
     });
     tableFormController.setValue(tableName);
     return tableFormController;
   }
 
-  getTables(): FormControl[] {
-    // return this.tableSettings;
+  getTablesFormControlList(): FormControl[] {
     return (this.form.controls["tables"] as FormArray).controls as FormControl[];
   }
 
   drop(event: CdkDragDrop<fieldSettings[]>) {
-    // moveItemInArray(this.tableSettings, event.previousIndex, event.currentIndex);
-    moveItemInArray(this.getTables(), event.previousIndex, event.currentIndex);
+    moveItemInArray(this.getTablesFormControlList(), event.previousIndex, event.currentIndex);
     moveItemInArray(this.tableSettingsList, event.previousIndex, event.currentIndex);
   }
 
   delete(tableIndex: number) {
-    this.getTables().splice(tableIndex, 1);
+    this.getTablesFormControlList().splice(tableIndex, 1);
     this.tableSettingsList.splice(tableIndex, 1);
   }
 
   save() {
-    this.getTables().forEach((tableFormControl, index) => {
+    this.getTablesFormControlList().forEach((tableFormControl, index) => {
         this.tableSettingsList[index].name = tableFormControl.value
     });
     this.tableSettingsService.tables = this.tableSettingsList
