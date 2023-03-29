@@ -14,44 +14,59 @@ export class CodeService {
 
   packageName: string = "com.perseverance"
   code: string = ""
+  tableIndex: number = 0
+  folderIndex: number = 0
 
   getCode() {
     return this.code;
   }
 
-  getEntityCode(table: TableSettings) {
+  downloadCode(folderIndex: number, tableIndex: number) {
+    if (folderIndex == 0) this.getControllerCode(folderIndex, tableIndex)
+    else if (folderIndex == 1) this.getRepositoryCode(folderIndex, tableIndex)
+    else if (folderIndex == 2) this.getEntityCode(folderIndex, tableIndex)
+  }
+
+
+  getEntityCode(folderIndex: number, tableIndex: number) {
     this.http.post("/api/entity", {
         "packageName": this.packageName,
-        "name": table.name,
-        "fields": table.fields.map(fieldSettings => fieldSettings.name)
+        "name": this.tableSettingsService.getTables()[tableIndex].name,
+        "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
+      this.tableIndex = tableIndex
+      this.folderIndex = folderIndex
     });
   }
 
-  getRepositoryCode(table: TableSettings) {
+  getRepositoryCode(folderIndex: number, tableIndex: number) {
     this.http.post("/api/repository", {
         "packageName": this.packageName,
-        "name": table.name
+        "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
+      this.tableIndex = tableIndex
+      this.folderIndex = folderIndex
     })
   }
 
-  getControllerCode(table: TableSettings) {
+  getControllerCode(folderIndex: number, tableIndex: number) {
     this.http.post("/api/controller", {
         "packageName": this.packageName,
-        "name": table.name
+        "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
+      this.tableIndex = tableIndex
+      this.folderIndex = folderIndex
     })
   }
 }

@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
 import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
+import { CodeService } from '../services/code.service';
 import { FieldSettings, TableSettings, TableSettingsService } from '../services/table-settings.service';
 
 // export enum dataType {
@@ -23,7 +24,8 @@ import { FieldSettings, TableSettings, TableSettingsService } from '../services/
 export class TableComponent implements OnInit {
 
   constructor(private tableSettingsService: TableSettingsService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private codeService: CodeService) { }
 
   ngOnInit(): void {
   }
@@ -49,6 +51,9 @@ export class TableComponent implements OnInit {
 
   drop(event: CdkDragDrop<FieldSettings[]>) {
     moveItemInArray(this.getTable().fields, event.previousIndex, event.currentIndex);
+    if (this.codeService.tableIndex === this.tableIndex) {
+      this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)
+    }
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
 
@@ -65,7 +70,10 @@ export class TableComponent implements OnInit {
   }
 
   delete(fieldIndex: number) {
-    this.getTable().fields.splice(fieldIndex, 1)
+    this.getTable().fields.splice(fieldIndex, 1);
+    if (this.codeService.tableIndex === this.tableIndex) {
+      this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)
+    }
   }
 
   openSettingsDialog(fieldIndex: number) {
@@ -74,6 +82,6 @@ export class TableComponent implements OnInit {
         tableIndex: this.tableIndex,
         fieldIndex: fieldIndex
       }
-    })
+    });
   }
 }

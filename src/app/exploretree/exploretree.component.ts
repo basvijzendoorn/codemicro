@@ -49,14 +49,11 @@ export class ExploretreeComponent {
   }
 
   ngOnInit() {
-    this.codeService.getControllerCode(this.tableSettingsService.getTables()[0])
-
+    this.codeService.getControllerCode(0,0)
   }
 
   downloadCode(folderIndex: number, tableIndex: number) {
-    if (folderIndex == 0) this.codeService.getControllerCode(this.tableSettingsService.getTables()[tableIndex])
-    else if (folderIndex == 1) this.codeService.getRepositoryCode(this.tableSettingsService.getTables()[tableIndex])
-    else if (folderIndex == 2) this.codeService.getEntityCode(this.tableSettingsService.getTables()[tableIndex])
+    this.codeService.downloadCode(folderIndex, tableIndex)
   }
 
   getNodes() {

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CodeService } from '../services/code.service';
 import { TableSettingsService } from '../services/table-settings.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { TableSettingsService } from '../services/table-settings.service';
 export class AddfielddialogComponent implements OnInit {
 
   constructor(private tableSettingsService: TableSettingsService,
+    private codeService: CodeService,
     @Inject(MAT_DIALOG_DATA) public tableIndex: number ) { }
 
   ngOnInit(): void {
@@ -23,6 +25,9 @@ export class AddfielddialogComponent implements OnInit {
   add(name: string) {
     this.getTable().fields.push({
       name: name
-    })
+    });
+    if (this.codeService.tableIndex === this.tableIndex) {
+      this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)
+    }
   }
 }
