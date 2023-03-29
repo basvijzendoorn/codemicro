@@ -21,11 +21,6 @@ export class CodeviewerComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.codeService.getControllerCode().subscribe(
-      (code) => {
-        this.code = code;
-      }
-    );
   }
 
   getCode(): string {
@@ -35,7 +30,7 @@ export class CodeviewerComponent implements OnInit {
     }
     `;
 
-    return this.code;
+    return this.codeService.getCode();
     // return code;
     // return this.codeService.getCode;
   }

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
 import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
-import { fieldSettings, tableSettings, TableSettingsService } from '../services/table-settings.service';
+import { FieldSettings, TableSettings, TableSettingsService } from '../services/table-settings.service';
 
 // export enum dataType {
 //   Integer,
@@ -47,7 +47,7 @@ export class TableComponent implements OnInit {
     return this.tableSettingsService.getTables()[this.tableIndex];
   }
 
-  drop(event: CdkDragDrop<fieldSettings[]>) {
+  drop(event: CdkDragDrop<FieldSettings[]>) {
     moveItemInArray(this.getTable().fields, event.previousIndex, event.currentIndex);
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }

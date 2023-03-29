@@ -1,12 +1,14 @@
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Injectable } from '@angular/core';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
-export interface fieldSettings {
+export interface FieldSettings {
   name: string
 }
 
-export interface tableSettings {
+export interface TableSettings {
   name: string
-  fields: fieldSettings[]
+  fields: FieldSettings[]
 }
 
 
@@ -15,7 +17,7 @@ export interface tableSettings {
 })
 export class TableSettingsService {
 
-  tables: tableSettings[] = [{
+  tables: TableSettings[] = [{
     name: "FirstTable",
     fields: [
       {name: "bas"}
@@ -32,4 +34,6 @@ export class TableSettingsService {
   getTables() {
     return this.tables
   }
+
+
 }

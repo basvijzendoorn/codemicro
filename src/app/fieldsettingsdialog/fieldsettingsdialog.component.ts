@@ -1,8 +1,8 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { fieldSettings, TableSettingsService } from '../services/table-settings.service';
+import { FieldSettings, TableSettingsService } from '../services/table-settings.service';
 
-interface tableAndFieldIndices {
+interface TableAndFieldIndices {
   tableIndex: number,
   fieldIndex: number
 }
@@ -15,12 +15,12 @@ interface tableAndFieldIndices {
 export class FieldSettingsDialogComponent implements OnInit {
 
   constructor(private tableSettingsService: TableSettingsService,
-    @Inject(MAT_DIALOG_DATA) public tableAndFieldIndices: tableAndFieldIndices ) { }
+    @Inject(MAT_DIALOG_DATA) public tableAndFieldIndices: TableAndFieldIndices ) { }
 
   ngOnInit(): void {
   }
 
-  getField(): fieldSettings {
+  getField(): FieldSettings {
     return this.tableSettingsService
       .getTables()[this.tableAndFieldIndices.tableIndex]
       .fields[this.tableAndFieldIndices.fieldIndex];

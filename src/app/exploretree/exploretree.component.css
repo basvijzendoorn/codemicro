@@ -1,0 +1,10 @@
+div.node {
+  display: flex;
+  align-items: center;
+}
+div.children {
+  margin-left: 20px;
+}
+.pointer  {
+  cursor: pointer;
+}

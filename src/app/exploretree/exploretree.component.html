@@ -1,23 +1,12 @@
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <!-- This is the tree node template for leaf nodes -->
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <!-- use a disabled button to provide padding for tree leaf -->
-    <button mat-icon-button disabled>
-      <mat-icon>
-        description
-      </mat-icon>
-    </button>
-    {{node.name}}
-  </mat-tree-node>
-  <!-- This is the tree node template for expandable nodes -->
-  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-    <button mat-icon-button matTreeNodeToggle
-            [attr.aria-label]="'Toggle ' + node.name"
-            >
-      <mat-icon>
-        folder
-      </mat-icon>
-    </button>
-    {{node.name}}
-  </mat-tree-node>
-</mat-tree>
+<div class="folder" *ngFor="let folder of getNodes(); let folderIndex = index">
+  <div class="node" [ngClass]="{'pointer': (folder.children?.length ?? 0) > 0}" (click)="toggle(folder)" >
+    <mat-icon>folder</mat-icon>
+    <div>{{folder.name}}</div>
+  </div>
+  <div class="children" *ngIf="folder.showChildren ?? false">
+    <div class="node pointer" *ngFor="let file of folder.children; let tableIndex = index" (click)="downloadCode(folderIndex, tableIndex)">
+      <mat-icon>description</mat-icon>
+      <div>{{file.name}}</div>
+    </div>
+  </div>
+</div>

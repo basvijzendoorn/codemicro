@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { TableSettingsService } from './table-settings.service';
+import { TableSettings, TableSettingsService } from './table-settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +13,45 @@ export class CodeService {
     private tableSettingsService: TableSettingsService) { }
 
   packageName: string = "com.perseverance"
+  code: string = ""
 
-  getEntityCode(): Observable<string> {
-    return this.http.post("/api/entity", {
-      "packageName": this.packageName,
-      "name": this.tableSettingsService.getTables()[0].name,
-      "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
-    },
-    {responseType: 'text'});
+  getCode() {
+    return this.code;
   }
 
-  getRepositoryCode(): Observable<string> {
-    return this.http.post("/api/repository", {
-      "packageName": this.packageName,
-      "name": this.tableSettingsService.getTables()[0].name
-      // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
-    },
-    {responseType: 'text'});
+  getEntityCode(table: TableSettings) {
+    this.http.post("/api/entity", {
+        "packageName": this.packageName,
+        "name": table.name,
+        "fields": table.fields.map(fieldSettings => fieldSettings.name)
+      },
+      {responseType: 'text'})
+    .subscribe(code => {
+      this.code = code
+    });
   }
 
-  getControllerCode(): Observable<string> {
-    return this.http.post("/api/controller", {
-      "packageName": this.packageName,
-      "name": this.tableSettingsService.getTables()[0].name
-      // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
-    },
-    {responseType: 'text'});
+  getRepositoryCode(table: TableSettings) {
+    this.http.post("/api/repository", {
+        "packageName": this.packageName,
+        "name": table.name
+        // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
+      },
+      {responseType: 'text'})
+    .subscribe(code => {
+      this.code = code
+    })
+  }
+
+  getControllerCode(table: TableSettings) {
+    this.http.post("/api/controller", {
+        "packageName": this.packageName,
+        "name": table.name
+        // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
+      },
+      {responseType: 'text'})
+    .subscribe(code => {
+      this.code = code
+    })
   }
 }

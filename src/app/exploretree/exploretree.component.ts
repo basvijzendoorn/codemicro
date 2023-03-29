@@ -1,37 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import { Component } from '@angular/core';
+import { CodeService } from '../services/code.service';
+import { TableSettingsService } from '../services/table-settings.service';
 
 
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
+// const TREE_DATA: TreeNode[] = [
+//   {
+//     name: 'Controllers',
+//     children: [{name: 'TickerController.java'}],
+//   },
+//   {
+//     name: 'Entities',
+//     children: [
+//       {
+//         name: 'TickerEntity.java'
+//       },
+//       {
+//         name: 'PriceEntity.java'
+//       },
+//     ],
+//   },
+// ];
+
+export interface Node {
+  name: string,
+  children?: Node[],
+  showChildren?: boolean
 }
-
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Controllers',
-    children: [{name: 'TickerController.java'}],
-  },
-  {
-    name: 'Entities',
-    children: [
-      {
-        name: 'TickerEntity.java'
-      },
-      {
-        name: 'PriceEntity.java'
-      },
-    ],
-  },
-];
-
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
-
 
 @Component({
   selector: 'app-exploretree',
@@ -40,31 +34,66 @@ interface ExampleFlatNode {
 })
 export class ExploretreeComponent {
 
-  private _transformer = (node: FoodNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
+  nodes: Node[] = [
+    {
+      name: "Controllers",
+    }, {
+      name: "Repositories",
+    }, {
+      name: "Entities",
+    }
+  ]
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  constructor() {
-    this.dataSource.data = TREE_DATA;
+  constructor(private tableSettingsService: TableSettingsService,
+              private codeService: CodeService) {
   }
 
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  ngOnInit() {
+    this.codeService.getControllerCode(this.tableSettingsService.getTables()[0])
+
+  }
+
+  downloadCode(folderIndex: number, tableIndex: number) {
+    if (folderIndex == 0) this.codeService.getControllerCode(this.tableSettingsService.getTables()[tableIndex])
+    else if (folderIndex == 1) this.codeService.getRepositoryCode(this.tableSettingsService.getTables()[tableIndex])
+    else if (folderIndex == 2) this.codeService.getEntityCode(this.tableSettingsService.getTables()[tableIndex])
+  }
+
+  getNodes() {
+    // const nodes: Node[] = [
+    //   {
+    //     name: "Controllers"
+    //     // children: this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name }))
+    //   }, {
+    //     name: "Entities",
+    //     children: [{
+    //       name: "abc"
+    //     }]
+    //   }
+    // ]
+    this.nodes[0].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Controller.java" }))
+    this.nodes[1].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Repository.java" }))
+    this.nodes[2].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + ".java" }))
+
+
+    // this.nodes.forEach(folder => {
+    //   folder.children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name }))
+    // })
+
+    // this.tableSettingsService.getTables().map(tableSettings => {
+    //     name: tableSettings.name,
+    //     children: []
+    // })
+    return this.nodes;
+    // return this.nodes;
+  }
+
+  toggle(folder: Node) {
+    if (folder.showChildren) {
+      folder.showChildren = false
+    } else {
+      folder.showChildren = true
+    }
+  }
+
 }
