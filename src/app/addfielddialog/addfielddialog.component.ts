@@ -10,6 +10,8 @@ import { TableSettingsService } from '../services/table-settings.service';
 })
 export class AddfielddialogComponent implements OnInit {
 
+  type?: string = "string";
+
   constructor(private tableSettingsService: TableSettingsService,
     private codeService: CodeService,
     @Inject(MAT_DIALOG_DATA) public tableIndex: number ) { }
@@ -24,7 +26,8 @@ export class AddfielddialogComponent implements OnInit {
 
   add(name: string) {
     this.getTable().fields.push({
-      name: name
+      name: name,
+      type: this.type ?? ""
     });
     if (this.codeService.tableIndex === this.tableIndex) {
       this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)

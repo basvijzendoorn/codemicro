@@ -9,6 +9,9 @@ div.field {
   display: flex;
   align-items: center;
 }
+div.field mat-icon {
+  margin-right: 4px;
+}
 div.fieldName {
   flex-grow: 4;
 }

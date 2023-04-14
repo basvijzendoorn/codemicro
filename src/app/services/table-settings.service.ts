@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 export interface FieldSettings {
-  name: string
+  name: string,
+  type: string
 }
 
 export interface TableSettings {
@@ -20,12 +21,12 @@ export class TableSettingsService {
   tables: TableSettings[] = [{
     name: "FirstTable",
     fields: [
-      {name: "bas"}
+      {name: "bas", type: "string"}
     ]
   }, {
     name: "SecondTable",
     fields: [
-      {name: "title"}
+      {name: "title", type: "string"}
     ]
   }]
 

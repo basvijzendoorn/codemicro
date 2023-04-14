@@ -1,10 +1,42 @@
 <h2 mat-dialog-title>Add Field</h2>
 
 <div mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput required #name>
-  </mat-form-field>
+  <div>
+    <mat-button-toggle-group [(value)]="type" name="type" aria-label="Type" >
+      <mat-button-toggle value="string">
+        <div class="button">
+          <mat-icon>subject</mat-icon>String
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="integer">
+        <div class="button">
+          <mat-icon>pin</mat-icon>Integer
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="double">
+        <div class="button">
+          <mat-icon>pin</mat-icon>Double
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="date">
+        <div class="button">
+          <mat-icon>calendar_month</mat-icon>Date
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="datetime">
+        <div class="button">
+          <mat-icon>access_time</mat-icon>Datetime
+        </div>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <br>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput required #name>
+    </mat-form-field>
+  </div>
 </div>
 
 <div mat-dialog-actions>

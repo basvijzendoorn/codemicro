@@ -15,11 +15,14 @@ interface TableAndFieldIndices {
 })
 export class FieldSettingsDialogComponent implements OnInit {
 
+  type?: string;
+
   constructor(private tableSettingsService: TableSettingsService,
     private codeService: CodeService,
     @Inject(MAT_DIALOG_DATA) public tableAndFieldIndices: TableAndFieldIndices ) { }
 
   ngOnInit(): void {
+    this.type = this.getField().type;
   }
 
   getField(): FieldSettings {
@@ -30,6 +33,7 @@ export class FieldSettingsDialogComponent implements OnInit {
 
   save(name: string) {
     this.getField().name = name;
+    this.getField().type = this.type ?? "string";
     if (this.codeService.tableIndex === this.tableAndFieldIndices.tableIndex) {
       this.codeService.downloadCode(this.codeService.folderIndex, this.tableAndFieldIndices.tableIndex)
     }

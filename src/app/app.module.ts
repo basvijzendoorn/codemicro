@@ -27,6 +27,8 @@ import { AddfielddialogComponent } from './addfielddialog/addfielddialog.compone
 import { AddtabledialogComponent } from './addtabledialog/addtabledialog.component';
 import { TablesettingsdialogComponent } from './tablesettingsdialog/tablesettingsdialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 
 
@@ -60,7 +62,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButtonToggleModule
   ],
   providers: [
     {
@@ -78,6 +81,6 @@ import { ReactiveFormsModule } from '@angular/forms';
       },
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, AddfielddialogComponent]
 })
 export class AppModule { }

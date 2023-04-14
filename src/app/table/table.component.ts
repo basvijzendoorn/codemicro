@@ -45,6 +45,21 @@ export class TableComponent implements OnInit {
   //   type: dataType.String
   // }];
 
+  typeToIcon(type: string) {
+    if (type == 'string') {
+      return 'subject';
+    } else if (type == 'integer') {
+      return 'pin';
+    } else if (type == 'double') {
+      return 'pin';
+    } else if (type == 'date') {
+      return 'calendar_month';
+    } else if (type == 'datetime') {
+      return 'access_time';
+    }
+    return 'subject';
+  }
+
   getTable() {
     return this.tableSettingsService.getTables()[this.tableIndex];
   }

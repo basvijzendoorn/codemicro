@@ -2,6 +2,7 @@
   <div *ngFor="let field of getTable().fields; let fieldIndex = index;" cdkDrag class='column'>
     <div *cdkDragPlaceholder></div>
     <div class='field'>
+      <mat-icon>{{typeToIcon(field.type)}}</mat-icon>
       <div class='fieldName'>
         {{field.name}}
       </div>
