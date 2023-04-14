@@ -81,6 +81,6 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
       },
     },
   ],
-  bootstrap: [AppComponent, AddfielddialogComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

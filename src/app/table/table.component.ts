@@ -48,7 +48,7 @@ export class TableComponent implements OnInit {
   typeToIcon(type: string) {
     if (type == 'string') {
       return 'subject';
-    } else if (type == 'integer') {
+    } else if (type == 'long') {
       return 'pin';
     } else if (type == 'double') {
       return 'pin';

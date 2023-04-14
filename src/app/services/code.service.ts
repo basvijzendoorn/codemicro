@@ -1,6 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { booturl } from 'src/environments/environment';
 import { TableSettings, TableSettingsService } from './table-settings.service';
 
 @Injectable({
@@ -29,10 +30,16 @@ export class CodeService {
 
 
   getEntityCode(folderIndex: number, tableIndex: number) {
-    this.http.post("https://boot.newpart.io/entity", {
+    this.http.post(booturl + "/entity", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name,
-        "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
+        "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(field => {
+          return {
+            "name": field.name,
+            "type": field.type.toUpperCase()
+          };
+        })
+        //"fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
     .subscribe(code => {
@@ -43,7 +50,7 @@ export class CodeService {
   }
 
   getRepositoryCode(folderIndex: number, tableIndex: number) {
-    this.http.post("https://boot.newpart.io/repository", {
+    this.http.post(booturl + "/repository", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
@@ -57,7 +64,7 @@ export class CodeService {
   }
 
   getControllerCode(folderIndex: number, tableIndex: number) {
-    this.http.post("https://boot.newpart.io/controller", {
+    this.http.post(booturl + "/controller", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
