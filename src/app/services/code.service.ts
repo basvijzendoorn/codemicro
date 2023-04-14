@@ -29,7 +29,7 @@ export class CodeService {
 
 
   getEntityCode(folderIndex: number, tableIndex: number) {
-    this.http.post("/api/entity", {
+    this.http.post("https://boot.newpart.io/entity", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name,
         "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
@@ -43,7 +43,7 @@ export class CodeService {
   }
 
   getRepositoryCode(folderIndex: number, tableIndex: number) {
-    this.http.post("/api/repository", {
+    this.http.post("https://boot.newpart.io/repository", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
@@ -57,7 +57,7 @@ export class CodeService {
   }
 
   getControllerCode(folderIndex: number, tableIndex: number) {
-    this.http.post("/api/controller", {
+    this.http.post("https://boot.newpart.io/controller", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
