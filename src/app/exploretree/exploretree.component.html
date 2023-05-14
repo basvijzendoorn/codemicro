@@ -1,4 +1,4 @@
-<div class="folder" *ngFor="let folder of getNodes(); let folderIndex = index">
+<!-- <div class="folder" *ngFor="let folder of getNodes(); let folderIndex = index">
   <div class="node" [ngClass]="{'pointer': (folder.children?.length ?? 0) > 0}" (click)="toggle(folder)" >
     <mat-icon>folder</mat-icon>
     <div>{{folder.name}}</div>
@@ -9,4 +9,37 @@
       <div>{{file.name}}</div>
     </div>
   </div>
+</div> -->
+
+<!-- <div class="children" *ngFor="let node of getNodes()">
+  <div class="node">
+    <mat-icon>folder</mat-icon>
+    <div>{{node.name}}</div>
+  </div>
 </div>
+
+<div class="children">
+  <div class="node">
+    <mat-icon>folder</mat-icon>
+    <div>src</div>
+  </div>
+  <div class="children">
+    <div class="node">
+      <mat-icon>folder</mat-icon>
+      <div>java</div>
+    </div>
+    <div class="children">
+      <div class="node">
+        <mat-icon>folder</mat-icon>
+        <div>com.example.bas</div>
+      </div>
+      <div class="node">
+        <mat-icon>folder</mat-icon>
+        <div>db.migration</div>
+      </div>
+    </div>
+  </div>
+
+</div> -->
+
+<app-exploretree-node [nodes]="getNodes()"></app-exploretree-node>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CodeService } from '../services/code.service';
-import { TableSettingsService } from '../services/table-settings.service';
+import { CodeService, DownloadType } from '../services/code.service';
+import { TableSettings, TableSettingsService } from '../services/table-settings.service';
 
 
 // const TREE_DATA: TreeNode[] = [
@@ -25,6 +25,7 @@ export interface Node {
   name: string,
   children?: Node[],
   showChildren?: boolean
+  downloadType?: DownloadType
 }
 
 @Component({
@@ -36,13 +37,24 @@ export class ExploretreeComponent {
 
   nodes: Node[] = [
     {
-      name: "Controllers",
-    }, {
-      name: "Repositories",
-    }, {
-      name: "Entities",
+      name: "src",
+      children: [
+        {
+          name: "main",
+        }
+      ]
     }
   ]
+
+  // nodes: Node[] = [
+  //   {
+  //     name: "Controllers",
+  //   }, {
+  //     name: "Repositories",
+  //   }, {
+  //     name: "Entities",
+  //   }
+  // ]
 
   constructor(private tableSettingsService: TableSettingsService,
               private codeService: CodeService) {
@@ -50,10 +62,6 @@ export class ExploretreeComponent {
 
   ngOnInit() {
     this.codeService.getControllerCode(0,0)
-  }
-
-  downloadCode(folderIndex: number, tableIndex: number) {
-    this.codeService.downloadCode(folderIndex, tableIndex)
   }
 
   getNodes() {
@@ -68,9 +76,11 @@ export class ExploretreeComponent {
     //     }]
     //   }
     // ]
-    this.nodes[0].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Controller.java" }))
-    this.nodes[1].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Repository.java" }))
-    this.nodes[2].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + ".java" }))
+
+
+    // this.nodes[0].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Controller.java" }))
+    // this.nodes[1].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + "Repository.java" }))
+    // this.nodes[2].children = this.tableSettingsService.getTables().map<Node>(tableSettings => ({ name: tableSettings.name + ".java" }))
 
 
     // this.nodes.forEach(folder => {
@@ -81,16 +91,18 @@ export class ExploretreeComponent {
     //     name: tableSettings.name,
     //     children: []
     // })
+
+    this.nodes = [{
+        name: "Controllers",
+        // children: this.tableSettingsService.getTables().map<Node>(tableSettings => ({name: tableSettings.name + "Controller.java", downloadType: DownloadType.Controller}))
+        children: [{
+          name: "abc"
+        }]
+    }];
+
     return this.nodes;
     // return this.nodes;
   }
 
-  toggle(folder: Node) {
-    if (folder.showChildren) {
-      folder.showChildren = false
-    } else {
-      folder.showChildren = true
-    }
-  }
 
 }

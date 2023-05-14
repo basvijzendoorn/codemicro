@@ -4,6 +4,15 @@ import { Observable, of } from 'rxjs';
 import { booturl } from 'src/environments/environment';
 import { TableSettings, TableSettingsService } from './table-settings.service';
 
+export enum DownloadType {
+  Entity,
+  Controller,
+  Repository,
+  FlywayInit,
+  Pom,
+  Properties
+}
+
 @Injectable({
   providedIn: 'root'
 })

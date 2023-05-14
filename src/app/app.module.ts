@@ -28,6 +28,7 @@ import { AddtabledialogComponent } from './addtabledialog/addtabledialog.compone
 import { TablesettingsdialogComponent } from './tablesettingsdialog/tablesettingsdialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ExploretreeNodeComponent } from './exploretree-node/exploretree-node.component';
 
 
 
@@ -43,7 +44,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     FieldSettingsDialogComponent,
     AddfielddialogComponent,
     AddtabledialogComponent,
-    TablesettingsdialogComponent
+    TablesettingsdialogComponent,
+    ExploretreeNodeComponent
   ],
   imports: [
     BrowserModule,

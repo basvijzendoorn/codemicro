@@ -1,0 +1,28 @@
+<div *ngFor="let node of nodes">
+  <div class="node" (click)="nodeClick(node)" [ngClass]="{'pointer': (node.children?.length ?? 0) > 0}">
+    <mat-icon>{{node.downloadType ? "description" : "folder"}}</mat-icon>
+    <div>{{node.name}}</div>
+  </div>
+  <app-exploretree-node [nodes]="node.children ?? []" *ngIf="node.showChildren"></app-exploretree-node>
+</div>
+
+<!-- <div class="node">
+  <mat-icon>folder</mat-icon>
+  <div>src</div>
+</div>
+<div class="children">
+  <div class="node">
+    <mat-icon>folder</mat-icon>
+    <div>java</div>
+  </div>
+  <div class="children">
+    <div class="node">
+      <mat-icon>folder</mat-icon>
+      <div>com.example.bas</div>
+    </div>
+    <div class="node">
+      <mat-icon>folder</mat-icon>
+      <div>db.migration</div>
+    </div>
+  </div>
+</div> -->

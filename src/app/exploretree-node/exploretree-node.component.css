@@ -1,0 +1,11 @@
+div.node {
+  display: flex;
+  align-items: center;
+}
+app-exploretree-node {
+  margin-left: 20px;
+  display: block;
+}
+.pointer  {
+  cursor: pointer;
+}
