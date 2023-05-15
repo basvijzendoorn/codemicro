@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CodeService, DownloadType } from '../services/code.service';
 import { TableSettingsService } from '../services/table-settings.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { TableSettingsService } from '../services/table-settings.service';
 })
 export class AddtabledialogComponent implements OnInit {
 
-  constructor(private tableSettingsService: TableSettingsService) { }
+  constructor(private tableSettingsService: TableSettingsService,
+              private codeService: CodeService) { }
 
   ngOnInit(): void {
   }
@@ -18,6 +20,9 @@ export class AddtabledialogComponent implements OnInit {
       name: name,
       fields: []
     })
+    if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
+      this.codeService.downloadCode(DownloadType.FlywayInit);
+    }
   }
 
 }

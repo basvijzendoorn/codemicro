@@ -29,17 +29,35 @@ export class CodeService {
   databaseUser: string = "root"
   databasePassword: string = "databasePassword"
   code: string = ""
-  tableIndex: number = 0
-  folderIndex: number = 0
+  currentTableIndex: number = 0
+  currentDownloadType: DownloadType = DownloadType.Controller
 
   getCode() {
     return this.code;
   }
 
-  downloadCode(folderIndex: number, tableIndex: number) {
-    if (folderIndex == 0) this.getControllerCode(tableIndex)
-    else if (folderIndex == 1) this.getRepositoryCode(tableIndex)
-    else if (folderIndex == 2) this.getEntityCode(tableIndex)
+  // downloadCode(folderIndex: number, tableIndex: number) {
+  //   if (folderIndex == 0) this.getControllerCode(tableIndex)
+  //   else if (folderIndex == 1) this.getRepositoryCode(tableIndex)
+  //   else if (folderIndex == 2) this.getEntityCode(tableIndex)
+  // }
+
+  downloadCode(downloadType: DownloadType, tableIndex?: number) {
+    if (downloadType === DownloadType.Entity) {
+      this.getEntityCode(tableIndex ?? 0);
+    } else if (downloadType === DownloadType.Application) {
+      this.getApplicationCode();
+    } else if (downloadType === DownloadType.Controller) {
+      this.getControllerCode(tableIndex ?? 0);
+    } else if (downloadType === DownloadType.FlywayInit) {
+      this.getFlywayInitCode();
+    } else if (downloadType === DownloadType.Pom) {
+      this.getPomCode();
+    } else if (downloadType === DownloadType.Properties) {
+      this.getPropertiesCode();
+    } else if (downloadType === DownloadType.Repository) {
+      this.getRepositoryCode(tableIndex ?? 0);
+    }
   }
 
 
@@ -58,7 +76,8 @@ export class CodeService {
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
-      this.tableIndex = tableIndex
+      this.currentTableIndex = tableIndex
+      this.currentDownloadType = DownloadType.Entity
     });
   }
 
@@ -80,6 +99,7 @@ export class CodeService {
       responseType: 'text'
     }).subscribe(code => {
       this.code = code
+      this.currentDownloadType = DownloadType.FlywayInit
     })
   }
 
@@ -92,7 +112,8 @@ export class CodeService {
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
-      this.tableIndex = tableIndex
+      this.currentTableIndex = tableIndex
+      this.currentDownloadType = DownloadType.Repository
     })
   }
 
@@ -105,7 +126,8 @@ export class CodeService {
       {responseType: 'text'})
     .subscribe(code => {
       this.code = code
-      this.tableIndex = tableIndex
+      this.currentTableIndex = tableIndex
+      this.currentDownloadType = DownloadType.Controller
     })
   }
 
@@ -119,6 +141,7 @@ export class CodeService {
     })
     .subscribe(code => {
       this.code = code
+      this.currentDownloadType = DownloadType.Application
     })
   }
 
@@ -133,6 +156,7 @@ export class CodeService {
     {responseType: 'text'})
     .subscribe(code => {
       this.code = code
+      this.currentDownloadType = DownloadType.Pom
     })
   }
 
@@ -146,6 +170,7 @@ export class CodeService {
     })
     .subscribe(code => {
       this.code = code
+      this.currentDownloadType = DownloadType.Properties
     })
   }
 

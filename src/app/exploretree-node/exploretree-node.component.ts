@@ -16,27 +16,28 @@ export class ExploretreeNodeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  downloadCode(folderIndex: number, tableIndex: number) {
-    this.codeService.downloadCode(folderIndex, tableIndex)
+  downloadCode(downloadType: DownloadType, tableIndex?: number) {
+    this.codeService.downloadCode(downloadType, tableIndex)
   }
 
   nodeClick(node: Node) {
     if (node.downloadType !== undefined) {
-      if (node.downloadType === DownloadType.Controller) {
-        this.codeService.getControllerCode(node.tableIndex ?? 0)
-      } else if (node.downloadType === DownloadType.Entity) {
-        this.codeService.getEntityCode(node.tableIndex ?? 0);
-      } else if (node.downloadType === DownloadType.Repository) {
-        this.codeService.getRepositoryCode(node.tableIndex ?? 0);
-      } else if (node.downloadType === DownloadType.Pom) {
-        this.codeService.getPomCode();
-      } else if (node.downloadType === DownloadType.Properties) {
-        this.codeService.getPropertiesCode()
-      } else if (node.downloadType === DownloadType.FlywayInit) {
-        this.codeService.getFlywayInitCode()
-      } else if (node.downloadType === DownloadType.Application) {
-        this.codeService.getApplicationCode()
-      }
+      this.downloadCode(node.downloadType, node.tableIndex);
+      // if (node.downloadType === DownloadType.Controller) {
+      //   this.codeService.getControllerCode(node.tableIndex ?? 0)
+      // } else if (node.downloadType === DownloadType.Entity) {
+      //   this.codeService.getEntityCode(node.tableIndex ?? 0);
+      // } else if (node.downloadType === DownloadType.Repository) {
+      //   this.codeService.getRepositoryCode(node.tableIndex ?? 0);
+      // } else if (node.downloadType === DownloadType.Pom) {
+      //   this.codeService.getPomCode();
+      // } else if (node.downloadType === DownloadType.Properties) {
+      //   this.codeService.getPropertiesCode()
+      // } else if (node.downloadType === DownloadType.FlywayInit) {
+      //   this.codeService.getFlywayInitCode()
+      // } else if (node.downloadType === DownloadType.Application) {
+      //   this.codeService.getApplicationCode()
+      // }
     } else {
       if (node.showChildren) {
         node.showChildren = false

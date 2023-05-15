@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { CodeService, DownloadType } from '../services/code.service';
 import { FieldSettings, TableSettings, TableSettingsService } from '../services/table-settings.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class TablesettingsdialogComponent implements OnInit {
   form = this.formBuilder.group({});
 
   constructor(private tableSettingsService: TableSettingsService,
-    private formBuilder:FormBuilder ) { }
+    private formBuilder:FormBuilder,
+    private codeService: CodeService ) { }
 
   ngOnInit(): void {
     this.tableSettingsList = JSON.parse(JSON.stringify(this.tableSettingsService.getTables()));
@@ -57,5 +59,8 @@ export class TablesettingsdialogComponent implements OnInit {
         this.tableSettingsList[index].name = tableFormControl.value
     });
     this.tableSettingsService.tables = this.tableSettingsList
+    if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
+      this.codeService.downloadCode(DownloadType.FlywayInit);
+    }
   }
 }

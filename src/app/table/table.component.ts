@@ -66,8 +66,8 @@ export class TableComponent implements OnInit {
 
   drop(event: CdkDragDrop<FieldSettings[]>) {
     moveItemInArray(this.getTable().fields, event.previousIndex, event.currentIndex);
-    if (this.codeService.tableIndex === this.tableIndex) {
-      this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)
+    if (this.codeService.currentTableIndex === this.tableIndex) {
+      this.codeService.downloadCode(this.codeService.currentDownloadType, this.tableIndex)
     }
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
@@ -86,8 +86,8 @@ export class TableComponent implements OnInit {
 
   delete(fieldIndex: number) {
     this.getTable().fields.splice(fieldIndex, 1);
-    if (this.codeService.tableIndex === this.tableIndex) {
-      this.codeService.downloadCode(this.codeService.folderIndex, this.tableIndex)
+    if (this.codeService.currentTableIndex === this.tableIndex) {
+      this.codeService.downloadCode(this.codeService.currentDownloadType, this.tableIndex)
     }
   }
 
