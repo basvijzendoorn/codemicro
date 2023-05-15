@@ -100,4 +100,17 @@ export class CodeService {
       this.code = code
     })
   }
+
+  getPropertiesCode() {
+    this.http.post(booturl + "/properties", {
+      "databaseURL": this.databaseURL,
+      "databaseUser": this.databaseUser,
+      "databasePassword": this.databasePassword
+    }, {
+      responseType: 'text'
+    })
+    .subscribe(code => {
+      this.code = code
+    })
+  }
 }

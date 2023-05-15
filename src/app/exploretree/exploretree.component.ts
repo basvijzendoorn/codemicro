@@ -70,6 +70,13 @@ export class ExploretreeComponent {
                   ]
                 }
               ]
+            }, {
+              name: "resources",
+              showChildren: true,
+              children: [ {
+                name: "application.properties",
+                children: []
+              }]
             }
           ]
         }
@@ -173,6 +180,12 @@ export class ExploretreeComponent {
     this.nodes[1] = {
       name: "pom.xml",
       downloadType: DownloadType.Pom,
+      children: []
+    }
+
+    this.nodes[0].children[0].children[1].children[0] = {
+      name: "application.properties",
+      downloadType: DownloadType.Properties,
       children: []
     }
 

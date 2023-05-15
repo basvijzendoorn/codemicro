@@ -30,6 +30,8 @@ export class ExploretreeNodeComponent implements OnInit {
         this.codeService.getRepositoryCode(node.tableIndex ?? 0);
       } else if (node.downloadType === DownloadType.Pom) {
         this.codeService.getPomCode();
+      } else if (node.downloadType === DownloadType.Properties) {
+        this.codeService.getPropertiesCode()
       }
     } else {
       if (node.showChildren) {
