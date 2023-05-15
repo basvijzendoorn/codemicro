@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../exploretree/exploretree.component';
-import { CodeService } from '../services/code.service';
+import { CodeService, DownloadType } from '../services/code.service';
 
 @Component({
   selector: 'app-exploretree-node',
@@ -21,8 +21,16 @@ export class ExploretreeNodeComponent implements OnInit {
   }
 
   nodeClick(node: Node) {
-    if (node.downloadType) {
-
+    if (node.downloadType !== undefined) {
+      if (node.downloadType === DownloadType.Controller) {
+        this.codeService.getControllerCode(node.tableIndex ?? 0)
+      } else if (node.downloadType === DownloadType.Entity) {
+        this.codeService.getEntityCode(node.tableIndex ?? 0);
+      } else if (node.downloadType === DownloadType.Repository) {
+        this.codeService.getRepositoryCode(node.tableIndex ?? 0);
+      } else if (node.downloadType === DownloadType.Pom) {
+        this.codeService.getPomCode();
+      }
     } else {
       if (node.showChildren) {
         node.showChildren = false
@@ -31,5 +39,4 @@ export class ExploretreeNodeComponent implements OnInit {
       }
     }
   }
-
 }

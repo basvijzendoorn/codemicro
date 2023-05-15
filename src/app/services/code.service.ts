@@ -1,6 +1,5 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { booturl } from 'src/environments/environment';
 import { TableSettings, TableSettingsService } from './table-settings.service';
 
@@ -22,7 +21,12 @@ export class CodeService {
     private http: HttpClient,
     private tableSettingsService: TableSettingsService) { }
 
-  packageName: string = "com.perseverance"
+  groupId = "com.perseverance"
+  artifactId = "demo"
+  packageName: string = this.groupId + "." + this.artifactId
+  databaseURL: string = "jdbc:mysql://localhost:3306/databaseId"
+  databaseUser: string = "root"
+  databasePassword: string = "databasePassword"
   code: string = ""
   tableIndex: number = 0
   folderIndex: number = 0
@@ -32,13 +36,13 @@ export class CodeService {
   }
 
   downloadCode(folderIndex: number, tableIndex: number) {
-    if (folderIndex == 0) this.getControllerCode(folderIndex, tableIndex)
-    else if (folderIndex == 1) this.getRepositoryCode(folderIndex, tableIndex)
-    else if (folderIndex == 2) this.getEntityCode(folderIndex, tableIndex)
+    if (folderIndex == 0) this.getControllerCode(tableIndex)
+    else if (folderIndex == 1) this.getRepositoryCode(tableIndex)
+    else if (folderIndex == 2) this.getEntityCode(tableIndex)
   }
 
 
-  getEntityCode(folderIndex: number, tableIndex: number) {
+  getEntityCode(tableIndex: number) {
     this.http.post(booturl + "/entity", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name,
@@ -54,11 +58,10 @@ export class CodeService {
     .subscribe(code => {
       this.code = code
       this.tableIndex = tableIndex
-      this.folderIndex = folderIndex
     });
   }
 
-  getRepositoryCode(folderIndex: number, tableIndex: number) {
+  getRepositoryCode(tableIndex: number) {
     this.http.post(booturl + "/repository", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
@@ -68,11 +71,10 @@ export class CodeService {
     .subscribe(code => {
       this.code = code
       this.tableIndex = tableIndex
-      this.folderIndex = folderIndex
     })
   }
 
-  getControllerCode(folderIndex: number, tableIndex: number) {
+  getControllerCode(tableIndex: number) {
     this.http.post(booturl + "/controller", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
@@ -82,7 +84,20 @@ export class CodeService {
     .subscribe(code => {
       this.code = code
       this.tableIndex = tableIndex
-      this.folderIndex = folderIndex
+    })
+  }
+
+  getPomCode() {
+    this.http.post(booturl + "/pom", {
+      "groupID": this.groupId,
+      "artifactID": this.artifactId,
+      "databaseURL": this.databaseURL,
+      "databaseUser": this.databaseUser,
+      "databasePassword": this.databasePassword
+    },
+    {responseType: 'text'})
+    .subscribe(code => {
+      this.code = code
     })
   }
 }
