@@ -16,13 +16,9 @@ export class ExploretreeNodeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  downloadCode(downloadType: DownloadType, tableIndex?: number) {
-    this.codeService.downloadCode(downloadType, tableIndex)
-  }
-
   nodeClick(node: Node) {
     if (node.downloadType !== undefined) {
-      this.downloadCode(node.downloadType, node.tableIndex);
+      this.codeService.downloadCode(node.downloadType, node.name, node.tableIndex);
       // if (node.downloadType === DownloadType.Controller) {
       //   this.codeService.getControllerCode(node.tableIndex ?? 0)
       // } else if (node.downloadType === DownloadType.Entity) {

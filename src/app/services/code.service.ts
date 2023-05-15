@@ -31,9 +31,14 @@ export class CodeService {
   code: string = ""
   currentTableIndex: number = 0
   currentDownloadType: DownloadType = DownloadType.Controller
+  currentFileName: string = "";
 
   getCode() {
     return this.code;
+  }
+
+  getCurrentFileName() {
+    return this.currentFileName;
   }
 
   // downloadCode(folderIndex: number, tableIndex: number) {
@@ -42,7 +47,7 @@ export class CodeService {
   //   else if (folderIndex == 2) this.getEntityCode(tableIndex)
   // }
 
-  downloadCode(downloadType: DownloadType, tableIndex?: number) {
+  downloadCode(downloadType: DownloadType, fileName: string, tableIndex?: number) {
     if (downloadType === DownloadType.Entity) {
       this.getEntityCode(tableIndex ?? 0);
     } else if (downloadType === DownloadType.Application) {
@@ -58,6 +63,7 @@ export class CodeService {
     } else if (downloadType === DownloadType.Repository) {
       this.getRepositoryCode(tableIndex ?? 0);
     }
+    this.currentFileName = fileName;
   }
 
 

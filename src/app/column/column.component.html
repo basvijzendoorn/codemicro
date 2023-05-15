@@ -1,9 +1,30 @@
 <div id="outer">
+  <div>
+    <!-- <div id="appheader"></div> -->
+    <app-tables></app-tables>
+  </div>
 
-  <app-tables></app-tables>
+  <div>
+    <!-- <div id="appheader"></div> -->
+    <app-exploretree></app-exploretree>
+  </div>
 
-  <app-exploretree></app-exploretree>
-
-  <app-codeviewer></app-codeviewer>
-
+  <div>
+    <div id="appheader">
+      <div class="left">
+        {{getFileName()}}
+      </div>
+      <div class="right">
+        <div class="button">
+          <mat-icon>download</mat-icon>
+          Download Zip
+        </div>
+        <div class="button">
+          <mat-icon>file_copy</mat-icon>
+          Copy File
+        </div>
+      </div>
+    </div>
+    <app-codeviewer></app-codeviewer>
+  </div>
 </div>

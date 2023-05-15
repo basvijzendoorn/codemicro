@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CodeService } from '../services/code.service';
 
 @Component({
   selector: 'app-column',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ColumnComponent implements OnInit {
-  constructor() {
+  constructor(private codeservice: CodeService) {
+  }
+
+  getFileName() {
+    return this.codeservice.getCurrentFileName();
   }
 
   ngOnInit(): void {

@@ -137,7 +137,10 @@ export class ExploretreeComponent {
   }
 
   ngOnInit() {
-    this.codeService.getControllerCode(0)
+    //var controllerNode = this.nodes[0].children[0].children[0].children[0].children[0];
+    this.codeService.getControllerCode(0);
+    this.codeService.currentFileName = this.tableSettingsService.getTables()[0].name + "Controller.java"
+    //this.codeService.downloadCode(controllerNode.downloadType ?? DownloadType.Controller, controllerNode.name, controllerNode.tableIndex);
   }
 
   getNodes() {

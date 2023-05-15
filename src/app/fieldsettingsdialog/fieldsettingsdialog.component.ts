@@ -35,7 +35,7 @@ export class FieldSettingsDialogComponent implements OnInit {
     this.getField().name = name;
     this.getField().type = this.type ?? "string";
     if (this.codeService.currentTableIndex === this.tableAndFieldIndices.tableIndex) {
-      this.codeService.downloadCode(this.codeService.currentDownloadType, this.tableAndFieldIndices.tableIndex)
+      this.codeService.downloadCode(this.codeService.currentDownloadType, this.codeService.currentFileName, this.tableAndFieldIndices.tableIndex)
     }
 
   }

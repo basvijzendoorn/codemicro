@@ -1,6 +1,23 @@
 /* app-codeviewer {
   width:100%;
 } */
+div.right {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+div.button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+div#appheader {
+  height: 30px;
+  align-items: center;
+  display: flex;
+}
 
 div#outer {
   display: flex;
