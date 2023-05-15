@@ -66,17 +66,30 @@ export class ExploretreeComponent {
                       name: "repositories",
                       showChildren: true,
                       children: []
+                    }, {
+                      name: "Application.java",
+                      children: []
                     }
                   ]
                 }
               ]
             }, {
               name: "resources",
-              showChildren: true,
-              children: [ {
-                name: "application.properties",
-                children: []
-              }]
+              showChildren: false,
+              children: [
+                {
+                  name: "db.migration",
+                  showChildren: true,
+                  children: [ {
+                    name: "V1__init.sql",
+                    children: []
+                  }]
+                },
+                {
+                  name: "application.properties",
+                  children: []
+                }
+              ]
             }
           ]
         }
@@ -177,13 +190,25 @@ export class ExploretreeComponent {
       children: []
     }));
 
+    packageFolder.children[3] = {
+      name: this.codeService.artifactId.charAt(0).toUpperCase() + this.codeService.artifactId.substring(1) + "Application.java",
+      downloadType: DownloadType.Application,
+      children: []
+    }
+
     this.nodes[1] = {
       name: "pom.xml",
       downloadType: DownloadType.Pom,
       children: []
     }
 
-    this.nodes[0].children[0].children[1].children[0] = {
+    this.nodes[0].children[0].children[1].children[0].children[0] = {
+      name: "V1__init.sql",
+      downloadType: DownloadType.FlywayInit,
+      children: []
+    }
+
+    this.nodes[0].children[0].children[1].children[1] = {
       name: "application.properties",
       downloadType: DownloadType.Properties,
       children: []

@@ -32,6 +32,10 @@ export class ExploretreeNodeComponent implements OnInit {
         this.codeService.getPomCode();
       } else if (node.downloadType === DownloadType.Properties) {
         this.codeService.getPropertiesCode()
+      } else if (node.downloadType === DownloadType.FlywayInit) {
+        this.codeService.getFlywayInitCode()
+      } else if (node.downloadType === DownloadType.Application) {
+        this.codeService.getApplicationCode()
       }
     } else {
       if (node.showChildren) {

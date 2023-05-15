@@ -9,7 +9,8 @@ export enum DownloadType {
   Repository,
   FlywayInit,
   Pom,
-  Properties
+  Properties,
+  Application
 }
 
 @Injectable({
@@ -61,6 +62,27 @@ export class CodeService {
     });
   }
 
+  getFlywayInitCode() {
+    var postBody = this.tableSettingsService.getTables().map(table => {
+      return {
+        "tableName": table.name,
+        "fields": table.fields.map(field => {
+          return {
+            "name": field.name,
+            "type": field.type.toUpperCase()
+          }
+        })
+      }
+    });
+    this.http.post(booturl + "/flyway/init", {
+      "tables": postBody
+    }, {
+      responseType: 'text'
+    }).subscribe(code => {
+      this.code = code
+    })
+  }
+
   getRepositoryCode(tableIndex: number) {
     this.http.post(booturl + "/repository", {
         "packageName": this.packageName,
@@ -84,6 +106,19 @@ export class CodeService {
     .subscribe(code => {
       this.code = code
       this.tableIndex = tableIndex
+    })
+  }
+
+  getApplicationCode() {
+    this.http.post(booturl + "/application", {
+      "groupID": this.groupId,
+      "artifactID": this.artifactId
+    },
+    {
+      responseType: 'text'
+    })
+    .subscribe(code => {
+      this.code = code
     })
   }
 
@@ -113,4 +148,5 @@ export class CodeService {
       this.code = code
     })
   }
+
 }
