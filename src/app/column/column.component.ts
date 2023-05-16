@@ -29,6 +29,7 @@ export class ColumnComponent implements OnInit {
 
     await this.addToZip(this.nodeService.getNodes()[0], zip)
     await this.addToZip(this.nodeService.getNodes()[1], zip)
+    await this.addToZip(this.nodeService.getNodes()[2], zip)
 
     zip.generateAsync({type:"blob"})
     .then(function(content) {

@@ -40,7 +40,7 @@ export class NodeService {
                       showChildren: true,
                       children: []
                     }, {
-                      name: "entities",
+                      name: "models",
                       showChildren: true,
                       children: []
                     }, {
@@ -56,7 +56,7 @@ export class NodeService {
               ]
             }, {
               name: "resources",
-              showChildren: false,
+              showChildren: true,
               children: [
                 {
                   name: "db.migration",
@@ -77,6 +77,9 @@ export class NodeService {
       ]
     }, {
       name: "pom.xml",
+      children: []
+    }, {
+      name: "README.md",
       children: []
     }
   ]
@@ -114,6 +117,12 @@ export class NodeService {
     this.nodes[1] = {
       name: "pom.xml",
       downloadType: DownloadType.Pom,
+      children: []
+    }
+
+    this.nodes[2] = {
+      name: "README.md",
+      downloadType: DownloadType.Readme,
       children: []
     }
 

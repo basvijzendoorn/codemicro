@@ -10,7 +10,8 @@ export enum DownloadType {
   FlywayInit,
   Pom,
   Properties,
-  Application
+  Application,
+  Readme
 }
 
 @Injectable({
@@ -22,7 +23,7 @@ export class CodeService {
     private http: HttpClient,
     private tableSettingsService: TableSettingsService) { }
 
-  groupId = "com.perseverance"
+  groupId = "com.example"
   artifactId = "demo"
   packageName: string = this.groupId + "." + this.artifactId
   databaseURL: string = "jdbc:mysql://localhost:3306/databaseId"
@@ -60,6 +61,8 @@ export class CodeService {
       return this.getPomCode()
     } else if (downloadType === DownloadType.Properties) {
       return this.getPropertiesCode()
+    } else if (downloadType === DownloadType.Readme) {
+      return this.getReadmeCode()
     } else {
       return this.getRepositoryCode(tableIndex ?? 0)
     }
@@ -140,12 +143,18 @@ export class CodeService {
   getPomCode() {
     return this.http.post(booturl + "/pom", {
       "groupID": this.groupId,
-      "artifactID": this.artifactId,
-      "databaseURL": this.databaseURL,
-      "databaseUser": this.databaseUser,
-      "databasePassword": this.databasePassword
+      "artifactID": this.artifactId
     },
     {responseType: 'text'})
+  }
+
+  getReadmeCode() {
+    return this.http.post(booturl + "/readme", {
+      "applicationName": this.artifactId.charAt(0).toUpperCase() + this.artifactId.substring(1) + "Application.java"
+    },
+    {
+      responseType: 'text'
+    });
   }
 
   getPropertiesCode() {
