@@ -29,6 +29,7 @@ import { TablesettingsdialogComponent } from './tablesettingsdialog/tablesetting
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ExploretreeNodeComponent } from './exploretree-node/exploretree-node.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 
 
@@ -65,7 +66,8 @@ import { ExploretreeNodeComponent } from './exploretree-node/exploretree-node.co
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    ClipboardModule
   ],
   providers: [
     {

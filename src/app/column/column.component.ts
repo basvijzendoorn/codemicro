@@ -5,7 +5,7 @@ import * as JSZip from 'jszip';
 import { NodeService } from '../services/node.service';
 import { Node } from '../services/node.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
-
+import { Clipboard } from '@angular/cdk/clipboard';
 
 
 @Component({
@@ -16,7 +16,12 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
 export class ColumnComponent implements OnInit {
   constructor(private codeservice: CodeService,
-              private nodeService: NodeService) {
+              private nodeService: NodeService,
+              private clipboard: Clipboard) {
+  }
+
+  async copyToClipboard() {
+    this.clipboard.copy(this.codeservice.code);
   }
 
   async downloadZip() {
