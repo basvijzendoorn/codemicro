@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CodeService, DownloadType } from '../services/code.service';
+import { NodeService } from '../services/node.service';
 import { TableSettings, TableSettingsService } from '../services/table-settings.service';
 
 
@@ -21,14 +22,6 @@ import { TableSettings, TableSettingsService } from '../services/table-settings.
 //   },
 // ];
 
-export interface Node {
-  name: string,
-  children: Node[],
-  showChildren?: boolean
-  downloadType?: DownloadType
-  tableIndex?: number
-
-}
 
 @Component({
   selector: 'app-exploretree',
@@ -37,68 +30,7 @@ export interface Node {
 })
 export class ExploretreeComponent {
 
-  nodes: Node[] = [
-    {
-      name: "src",
-      showChildren: true,
-      children: [
-        {
-          name: "main",
-          showChildren: true,
-          children: [
-            {
-              name: "java",
-              showChildren: true,
-              children: [
-                {
-                  name: "com.example.demo",
-                  showChildren: true,
-                  children: [
-                    {
-                      name: "controllers",
-                      showChildren: true,
-                      children: []
-                    }, {
-                      name: "entities",
-                      showChildren: true,
-                      children: []
-                    }, {
-                      name: "repositories",
-                      showChildren: true,
-                      children: []
-                    }, {
-                      name: "Application.java",
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }, {
-              name: "resources",
-              showChildren: false,
-              children: [
-                {
-                  name: "db.migration",
-                  showChildren: true,
-                  children: [ {
-                    name: "V1__init.sql",
-                    children: []
-                  }]
-                },
-                {
-                  name: "application.properties",
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }, {
-      name: "pom.xml",
-      children: []
-    }
-  ]
+  //nodes: Node[] =
 
   // nodes: Node[] = [{
   //   name: "Controllers",
@@ -133,12 +65,17 @@ export class ExploretreeComponent {
   // ]
 
   constructor(private tableSettingsService: TableSettingsService,
-              private codeService: CodeService) {
+              private codeService: CodeService,
+              private nodeService: NodeService) {
   }
 
   ngOnInit() {
     //var controllerNode = this.nodes[0].children[0].children[0].children[0].children[0];
-    this.codeService.getControllerCode(0);
+    this.codeService.getControllerCode(0).subscribe(code => {
+      this.codeService.code = code
+      this.codeService.currentTableIndex = 0
+      this.codeService.currentDownloadType = DownloadType.Controller
+    });
     this.codeService.currentFileName = this.tableSettingsService.getTables()[0].name + "Controller.java"
     //this.codeService.downloadCode(controllerNode.downloadType ?? DownloadType.Controller, controllerNode.name, controllerNode.tableIndex);
   }
@@ -170,55 +107,9 @@ export class ExploretreeComponent {
     //     name: tableSettings.name,
     //     children: []
     // })
-    var packageFolder = this.nodes[0].children[0].children[0].children[0]
 
-    packageFolder.children[0].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
-      name: tableSettings.name + "Controller.java",
-      downloadType: DownloadType.Controller,
-      tableIndex: index,
-      children: []
-    }));
-
-    packageFolder.children[1].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
-      name: tableSettings.name + "Entity.java",
-      downloadType: DownloadType.Entity,
-      tableIndex: index,
-      children: []
-    }));
-
-    packageFolder.children[2].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
-      name: tableSettings.name + "Repository.java",
-      downloadType: DownloadType.Repository,
-      tableIndex: index,
-      children: []
-    }));
-
-    packageFolder.children[3] = {
-      name: this.codeService.artifactId.charAt(0).toUpperCase() + this.codeService.artifactId.substring(1) + "Application.java",
-      downloadType: DownloadType.Application,
-      children: []
-    }
-
-    this.nodes[1] = {
-      name: "pom.xml",
-      downloadType: DownloadType.Pom,
-      children: []
-    }
-
-    this.nodes[0].children[0].children[1].children[0].children[0] = {
-      name: "V1__init.sql",
-      downloadType: DownloadType.FlywayInit,
-      children: []
-    }
-
-    this.nodes[0].children[0].children[1].children[1] = {
-      name: "application.properties",
-      downloadType: DownloadType.Properties,
-      children: []
-    }
-
-    return this.nodes;
     // return this.nodes;
+    return this.nodeService.getNodes()
   }
 
 

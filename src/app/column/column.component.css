@@ -1,8 +1,8 @@
 /* app-codeviewer {
   width:100%;
 } */
-div.right {
-  margin-left: auto;
+div.left {
+  /* margin-left: auto; */
   display: flex;
   gap: 8px;
 }

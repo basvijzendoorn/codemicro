@@ -47,28 +47,36 @@ export class CodeService {
   //   else if (folderIndex == 2) this.getEntityCode(tableIndex)
   // }
 
-  downloadCode(downloadType: DownloadType, fileName: string, tableIndex?: number) {
+  downloadCode(downloadType: DownloadType, tableIndex?: number) {
     if (downloadType === DownloadType.Entity) {
-      this.getEntityCode(tableIndex ?? 0);
+      return this.getEntityCode(tableIndex ?? 0)
     } else if (downloadType === DownloadType.Application) {
-      this.getApplicationCode();
+      return this.getApplicationCode()
     } else if (downloadType === DownloadType.Controller) {
-      this.getControllerCode(tableIndex ?? 0);
+      return this.getControllerCode(tableIndex ?? 0)
     } else if (downloadType === DownloadType.FlywayInit) {
-      this.getFlywayInitCode();
+      return this.getFlywayInitCode()
     } else if (downloadType === DownloadType.Pom) {
-      this.getPomCode();
+      return this.getPomCode()
     } else if (downloadType === DownloadType.Properties) {
-      this.getPropertiesCode();
-    } else if (downloadType === DownloadType.Repository) {
-      this.getRepositoryCode(tableIndex ?? 0);
+      return this.getPropertiesCode()
+    } else {
+      return this.getRepositoryCode(tableIndex ?? 0)
     }
+  }
+
+  downloadCodeToViewer(downloadType: DownloadType, fileName: string, tableIndex?: number) {
+    this.downloadCode(downloadType, tableIndex).subscribe(code => {
+      this.code = code
+      this.currentTableIndex = tableIndex ?? 0
+      this.currentDownloadType = downloadType
+    });
     this.currentFileName = fileName;
   }
 
 
   getEntityCode(tableIndex: number) {
-    this.http.post(booturl + "/entity", {
+    return this.http.post(booturl + "/entity", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name,
         "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(field => {
@@ -79,12 +87,7 @@ export class CodeService {
         })
         //"fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
       },
-      {responseType: 'text'})
-    .subscribe(code => {
-      this.code = code
-      this.currentTableIndex = tableIndex
-      this.currentDownloadType = DownloadType.Entity
-    });
+      {responseType: 'text'});
   }
 
   getFlywayInitCode() {
@@ -99,60 +102,43 @@ export class CodeService {
         })
       }
     });
-    this.http.post(booturl + "/flyway/init", {
+    return this.http.post(booturl + "/flyway/init", {
       "tables": postBody
     }, {
       responseType: 'text'
-    }).subscribe(code => {
-      this.code = code
-      this.currentDownloadType = DownloadType.FlywayInit
-    })
+    });
   }
 
   getRepositoryCode(tableIndex: number) {
-    this.http.post(booturl + "/repository", {
+    return this.http.post(booturl + "/repository", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
-    .subscribe(code => {
-      this.code = code
-      this.currentTableIndex = tableIndex
-      this.currentDownloadType = DownloadType.Repository
-    })
   }
 
   getControllerCode(tableIndex: number) {
-    this.http.post(booturl + "/controller", {
+    return this.http.post(booturl + "/controller", {
         "packageName": this.packageName,
         "name": this.tableSettingsService.getTables()[tableIndex].name
         // "fields": this.tableSettingsService.getTables()[0].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'})
-    .subscribe(code => {
-      this.code = code
-      this.currentTableIndex = tableIndex
-      this.currentDownloadType = DownloadType.Controller
-    })
   }
 
   getApplicationCode() {
-    this.http.post(booturl + "/application", {
+    return this.http.post(booturl + "/application", {
       "groupID": this.groupId,
       "artifactID": this.artifactId
     },
     {
       responseType: 'text'
-    })
-    .subscribe(code => {
-      this.code = code
-      this.currentDownloadType = DownloadType.Application
-    })
+    });
   }
 
   getPomCode() {
-    this.http.post(booturl + "/pom", {
+    return this.http.post(booturl + "/pom", {
       "groupID": this.groupId,
       "artifactID": this.artifactId,
       "databaseURL": this.databaseURL,
@@ -160,24 +146,16 @@ export class CodeService {
       "databasePassword": this.databasePassword
     },
     {responseType: 'text'})
-    .subscribe(code => {
-      this.code = code
-      this.currentDownloadType = DownloadType.Pom
-    })
   }
 
   getPropertiesCode() {
-    this.http.post(booturl + "/properties", {
+    return this.http.post(booturl + "/properties", {
       "databaseURL": this.databaseURL,
       "databaseUser": this.databaseUser,
       "databasePassword": this.databasePassword
     }, {
       responseType: 'text'
-    })
-    .subscribe(code => {
-      this.code = code
-      this.currentDownloadType = DownloadType.Properties
-    })
+    });
   }
 
 }

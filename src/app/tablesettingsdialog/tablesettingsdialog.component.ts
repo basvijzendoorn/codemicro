@@ -60,7 +60,7 @@ export class TablesettingsdialogComponent implements OnInit {
     });
     this.tableSettingsService.tables = this.tableSettingsList
     if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
-      this.codeService.downloadCode(DownloadType.FlywayInit, this.codeService.currentFileName);
+      this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
     }
   }
 }

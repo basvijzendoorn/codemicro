@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Node } from '../exploretree/exploretree.component';
+import { Node } from '../services/node.service';
 import { CodeService, DownloadType } from '../services/code.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class ExploretreeNodeComponent implements OnInit {
 
   nodeClick(node: Node) {
     if (node.downloadType !== undefined) {
-      this.codeService.downloadCode(node.downloadType, node.name, node.tableIndex);
+      this.codeService.downloadCodeToViewer(node.downloadType, node.name, node.tableIndex);
       // if (node.downloadType === DownloadType.Controller) {
       //   this.codeService.getControllerCode(node.tableIndex ?? 0)
       // } else if (node.downloadType === DownloadType.Entity) {
