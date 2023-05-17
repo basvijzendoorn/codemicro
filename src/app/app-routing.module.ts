@@ -1,7 +1,65 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeTwoComponent } from './components/pages/home-two/home-two.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ColumnComponent } from './column/column.component';
+import { HomeComponent } from './components/pages/home/home.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'build',
+    component: ColumnComponent
+  },
+  // {
+  //   path: 'home-two',
+  //   component: HomeTwoComponent,
+  // },
+  // {
+  //   path: 'home-three',
+  //   component: HomeThreeComponent,
+  // },
+  // {
+  //   path: 'home-four',
+  //   component: HomeFourComponent,
+  // },
+  // { path: 'home-five', component: HomeFiveComponent },
+  // {
+  //   path: 'home-six',
+  //   component: HomeSixComponent,
+  // },
+  // { path: 'home-seven', component: HomeSevenComponent },
+  // { path: 'home-eight', component: HomeEightComponent },
+  // { path: 'home-nine', component: HomeNineComponent },
+  // { path: 'home-ten', component: HomeTenComponent },
+  // { path: 'home-eleven', component: HomeElevenComponent },
+  // { path: 'home-twelve', component: HomeTwelveComponent },
+  // { path: 'home-thirteen', component: HomeThirteenComponent },
+  // { path: 'home-fourteen', component: HomeFourteenComponent },
+  // { path: 'home-fifteen', component: HomeFifteenComponent },
+  // { path: 'contact', component: ContactComponent },
+  // { path: 'services', component: ServicesComponent },
+  // { path: 'single-service', component: SingleServiceComponent },
+  // { path: 'about', component: AboutComponent },
+  // { path: 'pricing', component: PricingComponent },
+  // { path: 'news', component: NewsComponent },
+  // { path: 'news-details', component: NewsDetailsComponent },
+  // { path: 'integrations', component: IntegrationsComponent },
+  // { path: 'single-integration', component: SingleIntegrationComponent },
+  // { path: 'career', component: CareerComponent },
+  // { path: 'single-career', component: CareerSingleComponent },
+  // { path: 'help-center', component: HelpCenterComponent },
+  // { path: 'help-center-details', component: HelpCenterDetailsComponent },
+  // { path: 'request-for-demo', component: RequestForDemoComponent },
+  // { path: 'login', component: LoginComponent },
+  // { path: 'signup', component: SignupComponent },
+  // { path: 'password-reset', component: PasswordResetComponent },
+  // { path: 'coming-soon', component: ComingSoonComponent },
+  { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

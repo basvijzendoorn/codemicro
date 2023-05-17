@@ -22,4 +22,5 @@ div#appheader {
 div#outer {
   display: flex;
   align-content: flex-start;
+  gap: 6px;
 }

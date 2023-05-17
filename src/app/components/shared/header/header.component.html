@@ -1,0 +1,88 @@
+<header
+  class="main-header w-100"
+  [ngClass]="[
+    dark ? 'position-absolute' : '',
+    absolute ? 'position-absolute' : ''
+  ]"
+>
+  <nav
+    class="navbar navbar-expand-xl sticky-header z-10"
+    [ngClass]="[dark ? 'navbar-dark' : 'navbar-light', sticky ? 'affix' : '', shadow ? 'header-shadow' : '']"
+    (scroll)="onscroll()"
+  >
+    <div
+      class="container d-flex align-items-center justify-content-lg-between position-relative"
+    >
+      <a
+        routerLink="/"
+        class="navbar-brand d-flex align-items-center mb-md-0 text-decoration-none"
+      >
+        <img
+          src="assets/img/ibexapps/logo.png"
+          alt="logo"
+          class="logo-white ibex-logo"
+        />
+        <img
+          src="assets/img/ibexapps/logo.png"
+          alt="logo"
+          class="logo-color ibex-logo"
+        />
+      </a>
+      <button
+        class="navbar-toggler position-absolute right-0 border-0"
+        id="#offcanvasWithBackdrop"
+        role="button"
+      >
+        <span
+          class="far fa-bars"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasWithBackdrop"
+          aria-controls="offcanvasWithBackdrop"
+        ></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center">
+      </div>
+      <div
+        class="action-btns text-end me-5 me-lg-0 d-none d-md-block d-lg-block"
+      >
+        <a routerLink="/build" class="btn btn-primary">Build software</a>
+      </div>
+
+      <!--offcanvas menu start-->
+      <div
+        class="offcanvas offcanvas-end d-xl-none"
+        tabindex="-1"
+        id="offcanvasWithBackdrop"
+      >
+        <div class="offcanvas-header d-flex align-items-center mt-4">
+          <a
+            routerLink="/"
+            class="d-flex align-items-center mb-md-0 text-decoration-none"
+          >
+            <img
+              src="assets/img/ibexapps/logo.png"
+              alt="logo"
+              class="ps-2 ibex-logo"
+            />
+          </a>
+          <button
+            type="button"
+            class="close-btn text-danger"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          >
+            <i class="far fa-close"></i>
+          </button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="action-btns mt-4 ps-3">
+            <a routerLink="/build" class="btn btn-primary"
+              >Get Started</a
+            >
+          </div>
+        </div>
+      </div>
+      <!--offcanvas menu end-->
+    </div>
+  </nav>
+</header>

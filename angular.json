@@ -30,9 +30,15 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
               "node_modules/highlight.js/styles/androidstudio.css",
-              "src/customStyle.scss"
+              "src/customStyle.scss",
+              "./node_modules/glightbox/dist/css/glightbox.min.css",
+              "src/assets/css/fontawesome-all.min.css",
+              "src/styles/scss/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/glightbox/dist/js/glightbox.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
