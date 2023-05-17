@@ -2,7 +2,12 @@ div.node {
   display: flex;
   align-items: center;
   cursor: pointer;
+  font-size: 12px;
 }
+mat-icon {
+  font-size: 22px;
+}
+
 app-exploretree-node {
   margin-left: 20px;
   display: block;
