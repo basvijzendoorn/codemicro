@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyAQZ9LSGxGmDtw9HhwJUG8PT7JobEBfxQc",
+    authDomain: "ibexapps-1505e.firebaseapp.com",
+    projectId: "ibexapps-1505e",
+    storageBucket: "ibexapps-1505e.appspot.com",
+    messagingSenderId: "526614887519",
+    appId: "1:526614887519:web:372d861c91ec63b8216fea",
+    measurementId: "G-D6BSXXVSNR"
+  }
+
 };
 
 export const booturl = "http://localhost:8080"

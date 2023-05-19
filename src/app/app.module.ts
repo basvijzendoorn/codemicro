@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SwiperModule } from 'swiper/angular';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ExploretreeNodeComponent } from './exploretree-node/exploretree-node.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+
 
 import { HomeTwoComponent } from './components/pages/home-two/home-two.component';
 import { HeroTwoComponent } from './components/pages/home-two/hero-two/hero-two.component';
@@ -77,6 +84,11 @@ import Swiper from 'swiper';
 import { HomeComponent } from './components/pages/home/home.component';
 import { HeroFiveComponent } from './components/pages/home/hero-five/hero-five.component';
 import { PromoComponent } from './components/pages/home/promo/promo.component';
+import { SignupComponent } from './components/pages/signup/signup.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { PasswordResetComponent } from './components/pages/password-reset/password-reset.component';
+import { environment } from 'src/environments/environment';
+import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 
 
 
@@ -113,7 +125,11 @@ import { PromoComponent } from './components/pages/home/promo/promo.component';
     FeaturesImageFiveComponent,
     HomeComponent,
     HeroFiveComponent,
-    PromoComponent
+    PromoComponent,
+    SignupComponent,
+    LoginComponent,
+    PasswordResetComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -135,7 +151,13 @@ import { PromoComponent } from './components/pages/home/promo/promo.component';
     ReactiveFormsModule,
     MatButtonToggleModule,
     ClipboardModule,
-    SwiperModule
+    SwiperModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
+
   ],
   providers: [
     {

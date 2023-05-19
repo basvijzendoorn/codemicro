@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
   @Input() absolute: boolean = false;
   @Input() shadow: boolean = false;
 
-  constructor() {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   @HostListener('window:scroll', ['$event']) onscroll() {
     if (window.scrollY > 80) {
@@ -19,6 +20,10 @@ export class HeaderComponent implements OnInit {
     } else {
       this.sticky = false;
     }
+  }
+
+  loggedIn() {
+    return this.authenticationService.isLoggedIn;
   }
 
   ngOnInit(): void {}

@@ -1,0 +1,173 @@
+<div class="main-wrapper">
+  <!--register section start-->
+  <section
+    class="sign-up-in-section bg-dark ptb-60"
+    style="
+      background: url('assets/img/page-header-bg.svg') no-repeat right bottom;
+    "
+  >
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-12">
+          <div
+            class="pricing-content-wrap bg-custom-light rounded-custom shadow-lg"
+          >
+            <div
+              class="price-feature-col pricing-feature-info text-white left-radius p-5 order-1 order-lg-0"
+            >
+              <a routerLink="/" class="mb-5 d-none d-xl-block d-lg-block"
+                ><img
+                  src="assets/img/ibexapps/logo_white.png"
+                  alt="logo"
+                  class="ibex-logo"
+              /></a>
+              <div class="customer-testimonial-wrap mt-60">
+                <div class="tab-content" id="nav-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="testimonial-tab-1"
+                    role="tabpanel"
+                  >
+                    <div class="testimonial-tab-content mb-4">
+                      <blockquote>
+                        <h5>Create microservices</h5>
+                        Configure your tables and see the generated code.
+                      </blockquote>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="price-feature-col pricing-action-info p-5 right-radius bg-light order-0 order-lg-1"
+            >
+              <h1 class="h3">Create an Account</h1>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <label for="email" class="mb-1"
+                      >Email <span class="text-danger">*</span></label
+                    >
+                    <div class="input-group mb-3">
+                      <input
+                        type="email"
+                        class="form-control"
+                        placeholder="Email"
+                        id="email"
+                        required
+                        aria-label="email"
+                        [formControl]="emailFormControl"
+                      />
+                    </div>
+                    <div id="validation-rules" class="mt-3" *ngIf="emailInvalid">
+                      <div [ngClass]="{ 'text-danger': emailInvalid }">
+                        Please enter a valid email address.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <label for="password" class="mb-1"
+                      >Password <span class="text-danger">*</span></label
+                    >
+                    <div class="input-group mb-3">
+                      <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Password"
+                        id="password"
+                        required
+                        aria-label="Password"
+                        [formControl]="passwordFormControl"
+                      />
+                    </div>
+                    <div id="validation-rules" class="mt-3" *ngIf="requiredValid || submitClicked">
+                      <!-- minlength -->
+                      <div [ngClass]="{ 'text-success': minLengthValid, 'text-danger': !minLengthValid || !requiredValid}">
+                        Must be at least 8 characters long
+                      </div>
+
+                      <!-- requires digit -->
+                      <div [ngClass]="{ 'text-success': requiresDigitValid, 'text-danger': !requiresDigitValid || !requiredValid }">
+                        Must contain at least 1 digit
+                      </div>
+
+                      <!-- requires uppercase -->
+                      <div [ngClass]="{ 'text-success': requiresUppercaseValid, 'text-danger': !requiresUppercaseValid || !requiredValid}">
+                        Must contain at least 1 uppercase character
+                      </div>
+
+                      <!-- requires lowercase -->
+                      <div [ngClass]="{ 'text-success': requiresLowercaseValid, 'text-danger': !requiresLowercaseValid || !requiredValid }">
+                        Must contain at least 1 lowercase character
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check d-flex">
+                      <input
+                        class="form-check-input me-2"
+                        type="checkbox"
+                        value=""
+                        id="flexCheckChecked"
+                        [formControl]="termsFormControl"
+                      />
+                      <label class="form-check-label" for="flexCheckChecked">
+                        I have read and agree to the
+                        <a href="#" class="text-decoration-none"
+                          >Terms & Conditions</a
+                        >
+                      </label>
+                    </div>
+                    <div id="validation-rules" class="mt-3" *ngIf="termsInvalid" class="text-danger">
+                      Please accept the terms and conditions.
+                    </div>
+
+                  </div>
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      class="btn btn-primary mt-4 d-block w-100"
+                      (click)="submit()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+                <!-- <div
+                  class="position-relative d-flex align-items-center justify-content-center mt-4 py-4"
+                >
+                  <span class="divider-bar"></span>
+                  <h6
+                    class="position-absolute text-center divider-text bg-light mb-0"
+                  >
+                    Or
+                  </h6>
+                </div>
+                <div class="action-btns">
+                  <a
+                    href="#"
+                    class="btn google-btn mt-4 d-block bg-white shadow-sm d-flex align-items-center text-decoration-none justify-content-center"
+                  >
+                    <img
+                      src="assets/img/google-icon.svg"
+                      alt="google"
+                      class="me-3"
+                    />
+                    <span>Sign up with Google</span>
+                  </a>
+                </div> -->
+                <p
+                  class="text-center text-muted mt-4 mb-0 fw-medium font-monospace"
+                >
+                  Already have an account?
+                  <a routerLink="/login" class="text-decoration-none"
+                    >Sign in</a
+                  >
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--register section end-->
+</div>

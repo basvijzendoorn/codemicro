@@ -4,6 +4,10 @@ import { HomeTwoComponent } from './components/pages/home-two/home-two.component
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ColumnComponent } from './column/column.component';
 import { HomeComponent } from './components/pages/home/home.component';
+import { SignupComponent } from './components/pages/signup/signup.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { PasswordResetComponent } from './components/pages/password-reset/password-reset.component';
+import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 
 const routes: Routes = [
   {
@@ -13,6 +17,19 @@ const routes: Routes = [
   {
     path: 'build',
     component: ColumnComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
+  }, {
+    path: 'login',
+    component: LoginComponent
+  }, {
+    path: 'password-reset',
+    component: PasswordResetComponent
+  }, {
+    path: 'verify-email-address',
+    component: VerifyEmailComponent
   },
   // {
   //   path: 'home-two',

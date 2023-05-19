@@ -1,0 +1,36 @@
+<div class="main-wrapper">
+  <!--register section start-->
+  <section
+    class="sign-up-in-section bg-dark ptb-60"
+    style="
+      background: url('assets/img/page-header-bg.svg') no-repeat right bottom;
+    "
+  >
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-lg-5 col-md-8 col-12">
+          <a routerLink="/" class="mb-4 d-block text-center"
+            ><img src="assets/img/ibexapps/logo_white.png" alt="logo" class="ibex-logo"
+          /></a>
+          <div class="register-wrap p-5 bg-light shadow rounded-custom">
+            <h1 class="fw-bold h3">Thank you for registering</h1>
+            <p class="text-muted">
+              We have sent a confirmation email to <strong>{{getEmail()}}.</strong>
+              Please check your email and click on the link to verfiy your email address.
+            </p>
+
+              <p class="font-monospace fw-medium text-center mt-3 pt-4 mb-0">
+                <a class="text-decoration-none" (click)="resendEmail()"
+                >          Resend Verification Email
+                </a
+              ><br>
+                <a routerLink="/login" class="text-decoration-none"
+                  >Back to login page</a
+                >
+              </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

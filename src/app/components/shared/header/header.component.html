@@ -45,8 +45,10 @@
       <div
         class="action-btns text-end me-5 me-lg-0 d-none d-md-block d-lg-block"
       >
-        <a routerLink="/build" class="btn btn-primary">Build software</a>
-      </div>
+      <a routerLink="/signup" class="btn btn-primary" *ngIf="!loggedIn()"
+      >Sign up</a
+    >
+</div>
 
       <!--offcanvas menu start-->
       <div
@@ -76,8 +78,11 @@
         </div>
         <div class="offcanvas-body">
           <div class="action-btns mt-4 ps-3">
-            <a routerLink="/build" class="btn btn-primary"
-              >Get Started</a
+            <a routerLink="/signup" class="btn btn-primary" *ngIf="!loggedIn()"
+              >Sign up</a
+            >
+            <a routerLink="/build" class="btn btn-primary" *ngIf="loggedIn()"
+              >Build now</a
             >
           </div>
         </div>
