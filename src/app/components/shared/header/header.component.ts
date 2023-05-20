@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   @Input() sticky: boolean = false;
   @Input() absolute: boolean = false;
   @Input() shadow: boolean = false;
+  @Input() build: boolean = false;
 
   constructor(private authenticationService: AuthenticationService) {}
 
@@ -24,6 +25,10 @@ export class HeaderComponent implements OnInit {
 
   loggedIn() {
     return this.authenticationService.isLoggedIn;
+  }
+
+  logout() {
+    return this.authenticationService.SignOut();
   }
 
   ngOnInit(): void {}

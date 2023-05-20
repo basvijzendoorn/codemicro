@@ -8,6 +8,7 @@ import { SignupComponent } from './components/pages/signup/signup.component';
 import { LoginComponent } from './components/pages/login/login.component';
 import { PasswordResetComponent } from './components/pages/password-reset/password-reset.component';
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
+import { LoginGuard } from './login.guard';
 
 const routes: Routes = [
   {
@@ -16,7 +17,8 @@ const routes: Routes = [
   },
   {
     path: 'build',
-    component: ColumnComponent
+    component: ColumnComponent,
+    canActivate: [LoginGuard]
   },
   {
     path: 'signup',

@@ -1,4 +1,4 @@
-<app-header [shadow]="true"></app-header>
+<app-header [shadow]="true" [build]="true"></app-header>
 <div id="outer">
   <div>
     <!-- <div id="appheader"></div> -->
@@ -18,7 +18,7 @@
       <div class="left">
         <div class="button" (click)="downloadZip()">
           <mat-icon>download</mat-icon>
-          Download Zip
+          Download all code
         </div>
         <div class="button" (click)="copyToClipboard()">
           <mat-icon>file_copy</mat-icon>
