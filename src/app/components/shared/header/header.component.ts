@@ -46,5 +46,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.chatService.activateColdstart();
+  }
 }

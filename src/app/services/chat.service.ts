@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { aiurl, environment } from 'src/environments/environment';
 import { CodeService, DownloadType } from './code.service';
 import { TableSettingsService } from './table-settings.service';
 
@@ -50,6 +51,12 @@ export class ChatService {
     this.chatActive = false;
   }
 
+  activateColdstart() {
+    this.http.get<AIResponse>(aiurl + '/coldstart').subscribe(resp => {
+
+    });
+  }
+
   update(text: string) {
     this.chats.push({
       text: text,
@@ -76,7 +83,7 @@ export class ChatService {
       else return entity
     }).join(" ")
 
-    this.http.post<AIResponse>('http://localhost:5000', {
+    this.http.post<AIResponse>(aiurl, {
       "text": replacedText
     }).subscribe(resp => {
       if (resp.task == "AddTable") {

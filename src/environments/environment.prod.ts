@@ -12,3 +12,5 @@ export const environment = {
 };
 
 export const booturl = "https://boot.newpart.io"
+export const aiurl = "http://localhost:5000"
+
