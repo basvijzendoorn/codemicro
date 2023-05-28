@@ -89,6 +89,7 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { PasswordResetComponent } from './components/pages/password-reset/password-reset.component';
 import { environment } from 'src/environments/environment';
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 
@@ -129,7 +130,8 @@ import { VerifyEmailComponent } from './components/pages/verify-email/verify-ema
     SignupComponent,
     LoginComponent,
     PasswordResetComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

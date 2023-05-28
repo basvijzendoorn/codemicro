@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from '../services/chat.service';
 import { CodeService, DownloadType } from '../services/code.service';
 import { TableSettingsService } from '../services/table-settings.service';
 
@@ -10,19 +11,14 @@ import { TableSettingsService } from '../services/table-settings.service';
 export class AddtabledialogComponent implements OnInit {
 
   constructor(private tableSettingsService: TableSettingsService,
-              private codeService: CodeService) { }
+              private codeService: CodeService,
+              private chatService: ChatService) { }
 
   ngOnInit(): void {
   }
 
   add(name: string) {
-    this.tableSettingsService.getTables().push({
-      name: name,
-      fields: []
-    })
-    if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
-      this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
-    }
+    this.chatService.addTable(name)
   }
 
 }

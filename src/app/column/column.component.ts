@@ -6,6 +6,7 @@ import { NodeService } from '../services/node.service';
 import { Node } from '../services/node.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ChatService } from '../services/chat.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 export class ColumnComponent implements OnInit {
   constructor(private codeservice: CodeService,
               private nodeService: NodeService,
-              private clipboard: Clipboard) {
+              private clipboard: Clipboard,
+              private chatService: ChatService) {
   }
 
   async copyToClipboard() {
@@ -64,6 +66,11 @@ export class ColumnComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  isChatActive() {
+    console.log(this.chatService.isChatActive());
+    return this.chatService.isChatActive();
   }
 }
 
