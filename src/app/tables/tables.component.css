@@ -1,5 +1,5 @@
 div {
-  min-width: 400px;
+  /* min-width: 400px; */
 }
 div.tableButtons {
   justify-content: space-between;

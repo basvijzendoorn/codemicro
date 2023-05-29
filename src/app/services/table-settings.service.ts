@@ -21,12 +21,12 @@ export class TableSettingsService {
   tables: TableSettings[] = [{
     name: "FirstTable",
     fields: [
-      {name: "bas", type: "string"}
+      {name: "title", type: "string"}
     ]
   }, {
     name: "SecondTable",
     fields: [
-      {name: "title", type: "string"}
+      {name: "age", type: "long"}
     ]
   }]
 

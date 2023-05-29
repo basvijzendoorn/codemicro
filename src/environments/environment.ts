@@ -13,11 +13,10 @@ export const environment = {
     appId: "1:526614887519:web:372d861c91ec63b8216fea",
     measurementId: "G-D6BSXXVSNR"
   }
-
 };
 
 export const booturl = "https://boot.newpart.io"
-export const aiurl = "http://localhost:5000"
+export const aiurl = "https://localhost:5000"
 
 /*
  * For easier debugging in development mode, you can import the following file
