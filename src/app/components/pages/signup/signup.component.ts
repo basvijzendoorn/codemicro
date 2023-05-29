@@ -38,6 +38,14 @@ export class SignupComponent implements OnInit {
   emailInvalid = false;
   submitClicked = false;
 
+  loginMicrosoft() {
+    this.authenticationService.MicrosoftAuth();
+  }
+
+  loginGoogle() {
+    this.authenticationService.GoogleAuth();
+  }
+
   submit() {
     this.submitClicked = true;
     if (!this.emailFieldValid) {

@@ -17,9 +17,9 @@
               Please log in to access your account.
             </p>
 
-            <!-- <div class="action-btns">
+            <div class="action-btns">
               <a
-                href="#"
+                (click)="loginGoogle()"
                 class="btn google-btn bg-white shadow-sm mt-4 d-block d-flex align-items-center text-decoration-none justify-content-center"
               >
                 <img
@@ -29,8 +29,22 @@
                 />
                 <span>Connect with Google</span>
               </a>
-            </div> -->
-            <!-- <div
+            </div>
+            <div class="action-btns">
+              <a
+                (click)="loginMicrosoft()"
+                class="btn google-btn bg-white shadow-sm mt-4 d-block d-flex align-items-center text-decoration-none justify-content-center"
+              >
+                <img
+                  src="assets/img/microsoft_logo.png"
+                  alt="microsoft"
+                  class="me-3 microsoft-logo"
+                />
+                <span>Connect with Microsoft</span>
+              </a>
+            </div>
+
+            <div
               class="position-relative d-flex align-items-center justify-content-center mt-4 py-4"
             >
               <span class="divider-bar"></span>
@@ -39,7 +53,7 @@
               >
                 Or
               </h6>
-            </div> -->
+            </div>
               <div class="row">
                 <div class="col-sm-12">
                   <label for="email" class="mb-1"

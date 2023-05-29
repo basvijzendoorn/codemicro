@@ -36,9 +36,14 @@ export class LoginComponent implements OnInit {
       .catch((error) => {
         this.signinInvalid = true;
       });
+  }
 
+  loginMicrosoft() {
+    return this.authenticationService.MicrosoftAuth();
+  }
 
-    this.authenticationService.SignIn(this.emailFormControl.value, this.passwordFormControl.value);
+  loginGoogle(){
+    return this.authenticationService.GoogleAuth();
   }
 
 }

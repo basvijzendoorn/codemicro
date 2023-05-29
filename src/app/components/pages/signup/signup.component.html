@@ -132,7 +132,7 @@
                     </button>
                   </div>
                 </div>
-                <!-- <div
+                <div
                   class="position-relative d-flex align-items-center justify-content-center mt-4 py-4"
                 >
                   <span class="divider-bar"></span>
@@ -144,7 +144,7 @@
                 </div>
                 <div class="action-btns">
                   <a
-                    href="#"
+                    (click)="loginGoogle()"
                     class="btn google-btn mt-4 d-block bg-white shadow-sm d-flex align-items-center text-decoration-none justify-content-center"
                   >
                     <img
@@ -154,7 +154,20 @@
                     />
                     <span>Sign up with Google</span>
                   </a>
-                </div> -->
+                </div>
+                <div class="action-btns">
+                  <a
+                    (click)="loginMicrosoft()"
+                    class="btn google-btn mt-4 d-block bg-white shadow-sm d-flex align-items-center text-decoration-none justify-content-center"
+                  >
+                    <img
+                      src="assets/img/microsoft_logo.png"
+                      alt="microsoft"
+                      class="me-3 microsoft-logo"
+                    />
+                    <span>Sign up with Microsoft</span>
+                  </a>
+                </div>
                 <p
                   class="text-center text-muted mt-4 mb-0 fw-medium font-monospace"
                 >

@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import * as auth from 'firebase/auth';
 
 import { Router } from '@angular/router';
+import { GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 
 export interface User {
   uid: string;
@@ -96,22 +97,48 @@ export class AuthenticationService {
     return user !== null;
   }
 
+  MicrosoftAuth() {
+    const provider = new OAuthProvider('microsoft.com');
+    this.afAuth
+      .signInWithPopup(provider).then((result) => {
+        this.SetUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['build']);
+          }
+        });
+      }).catch((error) => {
+        alert(error);
+      })
+    // return this.AuthLogin(provider).then(data => {
+    // })
+  }
+
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      this.router.navigate(['dashboard']);
-    });
+    const provider = new GoogleAuthProvider();
+    this.afAuth
+      .signInWithPopup(provider).then((result) => {
+        this.SetUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['build']);
+          }
+        });
+      }).catch((error) => {
+        alert(error);
+      })
   }
   // Auth logic to run auth providers
   AuthLogin(provider: any) {
     return this.afAuth
       .signInWithPopup(provider)
       .then((result) => {
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['build']);
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error);
+        // window.alert(error);
       });
   }
 

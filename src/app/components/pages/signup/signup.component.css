@@ -4,3 +4,7 @@ mat-icon {
 div#validation-rules {
   font-size: 12px;
 }
+
+img.microsoft-logo {
+  height: 30px;
+}
