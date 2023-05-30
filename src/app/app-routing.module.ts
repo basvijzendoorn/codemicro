@@ -9,6 +9,7 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { PasswordResetComponent } from './components/pages/password-reset/password-reset.component';
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 import { LoginGuard } from './login.guard';
+import { ProjectsComponent } from './projects/projects.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'build',
     component: ColumnComponent,
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'projects',
+    component: ProjectsComponent,
     canActivate: [LoginGuard]
   },
   {

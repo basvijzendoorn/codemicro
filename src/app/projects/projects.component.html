@@ -1,0 +1,42 @@
+<app-header></app-header>
+<section class="promo-section ptb-120">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 ibex-project">
+        <div
+          class="promo-card-wrap promo-border-hover border border-2 bg-white rounded-custom p-5 mb-4 mb-lg-0 mb-md-4"
+          data-aos="fade-up"
+          data-aos-delay="50"
+          (click)="openProject()"
+        >
+          <div class="promo-card-info ibex-project" >
+            <div class="ibex-projecttitle">
+              <h3 class="display-5 fw-medium mb-4">Project 1</h3>
+              <button class="menubutton" mat-icon-button (click)="$event.preventDefault(); $event.stopPropagation();" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete project</span>
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 ibex-project">
+        <div
+          class="promo-card-wrap promo-border-hover border border-2 bg-white rounded-custom p-5 mb-4 mb-lg-0 mb-md-4"
+          data-aos="fade-up"
+          data-aos-delay="50"
+        >
+          <div class="promo-card-info ibex-add">
+              <mat-icon>add</mat-icon>
+              <h3 class="display-5 fw-medium mb-4">Add project</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+div.ibex-add mat-icon {
+  font-size: 58px;
+  width: 58px;
+  height: 58px
+}
+div.ibex-add{
+  display: flex;
+}
+div.ibex-project {
+  cursor: pointer;
+}
+div.ibex-projecttitle {
+  display: flex;
+  justify-content: space-between;
+}
+button.menubutton {
+  z-index: 10;
+  pointer-events: auto;
+}

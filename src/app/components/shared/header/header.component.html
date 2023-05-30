@@ -41,6 +41,9 @@
         ></span>
       </button>
       <div class="collapse navbar-collapse justify-content-center">
+        <ul class="nav col-12 col-md-auto justify-content-center main-menu">
+          <li><a routerLink="/projects" class="nav-link">Projects</a></li>
+        </ul>
 
       </div>
       <div
@@ -90,19 +93,14 @@
           </button>
         </div>
         <div class="offcanvas-body">
+          <a class="btn btn-link text-decoration-none me-2" *ngIf="loggedIn()" href="/projects">Projects</a><br>
           <a class="btn btn-link text-decoration-none me-2" *ngIf="loggedIn() && inBuildPage()" (click)="toggleChat()">AI chat</a>
-          <a class="btn btn-link text-decoration-none me-2" *ngIf="loggedIn()" (click)="logout()"
-          >Logout</a>
-          <a routerLink="/login" class="btn btn-link text-decoration-none me-2" *ngIf="!loggedIn()"
-          >Login</a>
+          <a class="btn btn-link text-decoration-none me-2" *ngIf="loggedIn()" (click)="logout()">Logout</a>
+          <a routerLink="/login" class="btn btn-link text-decoration-none me-2" *ngIf="!loggedIn()">Login</a>
 
           <div class="action-btns mt-4 ps-3">
-            <a routerLink="/signup" class="btn btn-primary" *ngIf="!loggedIn()"
-              >Sign up</a
-            >
-            <a routerLink="/build" class="btn btn-primary" *ngIf="loggedIn()"
-              >Build now</a
-            >
+            <a routerLink="/signup" class="btn btn-primary" *ngIf="!loggedIn()">Sign up</a>
+            <a routerLink="/build" class="btn btn-primary" *ngIf="loggedIn()">Build now</a>
           </div>
         </div>
       </div>

@@ -6,6 +6,8 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 
 
@@ -90,6 +92,7 @@ import { PasswordResetComponent } from './components/pages/password-reset/passwo
 import { environment } from 'src/environments/environment';
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 import { ChatComponent } from './chat/chat.component';
+import { ProjectsComponent } from './projects/projects.component';
 
 
 
@@ -131,7 +134,8 @@ import { ChatComponent } from './chat/chat.component';
     LoginComponent,
     PasswordResetComponent,
     VerifyEmailComponent,
-    ChatComponent
+    ChatComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -159,7 +163,7 @@ import { ChatComponent } from './chat/chat.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-
+    MatMenuModule
   ],
   providers: [
     {
