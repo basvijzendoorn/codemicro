@@ -41,11 +41,13 @@ export class SignupComponent implements OnInit {
   submitClicked = false;
 
   loginMicrosoft() {
-    this.authenticationService.MicrosoftAuth();
+    this.supabaseService.signInWithAzure();
+    // this.authenticationService.MicrosoftAuth();
   }
 
   loginGoogle() {
-    this.authenticationService.GoogleAuth();
+    this.supabaseService.signInWithGoogle();
+    // this.authenticationService.GoogleAuth();
   }
 
   submit() {

@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   async login() {
     const { data, error } = await this.supabaseService.signIn(this.emailFormControl.value, this.passwordFormControl.value);
     if (error === null) {
+      this.supabaseService.currentSession = data.session;
       this.router.navigate(['build']);
     } else {
       this.signinInvalid = true;
@@ -49,11 +50,13 @@ export class LoginComponent implements OnInit {
   }
 
   loginMicrosoft() {
-    return this.authenticationService.MicrosoftAuth();
+    this.supabaseService.signInWithAzure();
+    // return this.authenticationService.MicrosoftAuth();
   }
 
   loginGoogle(){
-    return this.authenticationService.GoogleAuth();
+    this.supabaseService.signInWithGoogle();
+    // return this.authenticationService.GoogleAuth();
   }
 
 }

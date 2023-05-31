@@ -93,6 +93,7 @@ import { environment } from 'src/environments/environment';
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 import { ChatComponent } from './chat/chat.component';
 import { ProjectsComponent } from './projects/projects.component';
+import { PasswordChangeComponent } from './components/pages/password-change/password-change.component';
 
 
 
@@ -135,7 +136,8 @@ import { ProjectsComponent } from './projects/projects.component';
     PasswordResetComponent,
     VerifyEmailComponent,
     ChatComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,

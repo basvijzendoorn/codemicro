@@ -10,6 +10,7 @@ import { PasswordResetComponent } from './components/pages/password-reset/passwo
 import { VerifyEmailComponent } from './components/pages/verify-email/verify-email.component';
 import { LoginGuard } from './login.guard';
 import { ProjectsComponent } from './projects/projects.component';
+import { PasswordChangeComponent } from './components/pages/password-change/password-change.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
   }, {
     path: 'password-reset',
     component: PasswordResetComponent
+  }, {
+    path: 'change-password',
+    component: PasswordChangeComponent,
+    canActivate: [LoginGuard]
   },
   // {
   //   path: 'verify-email-address',

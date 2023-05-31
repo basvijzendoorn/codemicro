@@ -13,13 +13,18 @@ export class LoginGuard implements CanActivate {
     private router: Router,
     private supabaseService: SupabaseService
   ) {}
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.supabaseService.isLoggedIn()) {
+    state: RouterStateSnapshot): Promise<boolean> {
+      
+    const session = await this.supabaseService.supabase.auth.getSession();
+    // alert(JSON.stringify(session.data));
+    // alert(JSON.stringify(session.error));
+
+    if (session.data.session === null) {
       this.router.navigate(['login'])
-    };
-    return true;
+    }
+    return Promise.resolve(true);
   }
 
 }

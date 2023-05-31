@@ -13,4 +13,5 @@ export const environment = {
 
 export const booturl = "https://boot.ibexapps.com"
 export const aiurl = "https://ai.ibexapps.com"
+export const homeUrl = "https://www.ibexapps.com"
 

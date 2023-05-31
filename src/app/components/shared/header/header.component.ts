@@ -33,10 +33,12 @@ export class HeaderComponent implements OnInit {
 
   loggedIn() {
     return this.supabaseService.isLoggedIn();
+    // return this.supabaseService.isLoggedIn();
     // return this.authenticationService.isLoggedIn;
   }
 
   logout() {
+    this.supabaseService.signOut();
     // return this.authenticationService.SignOut();
   }
 

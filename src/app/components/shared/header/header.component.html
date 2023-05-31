@@ -42,7 +42,7 @@
       </button>
       <div class="collapse navbar-collapse justify-content-center">
         <ul class="nav col-12 col-md-auto justify-content-center main-menu">
-          <li><a routerLink="/projects" class="nav-link">Projects</a></li>
+          <li *ngIf="loggedIn()"><a routerLink="/projects" class="nav-link">Projects</a></li>
         </ul>
 
       </div>
