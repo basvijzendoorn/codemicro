@@ -3,6 +3,7 @@ import { EmailValidator, FormControl, Validators } from '@angular/forms';
 import { PasswordValidators } from 'src/app/validators/password-validators';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 
 
@@ -13,7 +14,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService,
+              private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
   }
@@ -60,7 +62,7 @@ export class SignupComponent implements OnInit {
     }
 
     if (!this.emailInvalid && !this.termsInvalid && this.passwordValid) {
-      this.authenticationService.SignUp(this.emailFormControl.value, this.passwordFormControl.value);
+      this.supabaseService.signUp(this.emailFormControl.value, this.passwordFormControl.value);
       // const auth = getAuth();
       // createUserWithEmailAndPassword(auth, this.emailFormControl.value, this.passwordFormControl.value)
       //   .then((userCredential) => {

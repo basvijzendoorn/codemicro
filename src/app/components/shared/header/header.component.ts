@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ChatComponent } from 'src/app/chat/chat.component';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ChatService } from 'src/app/services/chat.service';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class HeaderComponent implements OnInit {
   @Input() shadow: boolean = false;
   @Input() build: boolean = false;
 
-  constructor(private authenticationService: AuthenticationService,
+  constructor(private supabaseService: SupabaseService,
     private chatService: ChatService) {}
 
   @HostListener('window:scroll', ['$event']) onscroll() {
@@ -31,11 +32,12 @@ export class HeaderComponent implements OnInit {
   }
 
   loggedIn() {
-    return this.authenticationService.isLoggedIn;
+    return this.supabaseService.isLoggedIn();
+    // return this.authenticationService.isLoggedIn;
   }
 
   logout() {
-    return this.authenticationService.SignOut();
+    // return this.authenticationService.SignOut();
   }
 
   toggleChat() {

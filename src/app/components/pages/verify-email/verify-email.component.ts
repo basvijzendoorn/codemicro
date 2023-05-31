@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,17 +9,21 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class VerifyEmailComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService,
+              private supabaseService: SupabaseService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void{
   }
 
   getEmail(){
-    return this.authenticationService.userData.email
+    return "";
+    //return this.supabaseService.currentSession?.user?.email;    // return this.supabaseService.currentUser?.email;
   }
 
   resendEmail() {
-    this.authenticationService.SendVerificationMail();
+    //this.supabaseService.resendVerificationEmail(this.supabaseService.currentSession?.user?.email ?? "");
+
+    // this.authenticationService.SendVerificationMail();
   }
 
 }

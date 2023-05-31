@@ -57,6 +57,7 @@ export class AuthenticationService {
   }
 
   SignUp(email: string, password: string) {
+    
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {

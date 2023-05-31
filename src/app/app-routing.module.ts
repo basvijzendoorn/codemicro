@@ -35,10 +35,11 @@ const routes: Routes = [
   }, {
     path: 'password-reset',
     component: PasswordResetComponent
-  }, {
-    path: 'verify-email-address',
-    component: VerifyEmailComponent
   },
+  // {
+  //   path: 'verify-email-address',
+  //   component: VerifyEmailComponent
+  // },
   // {
   //   path: 'home-two',
   //   component: HomeTwoComponent,
