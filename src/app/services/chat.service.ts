@@ -148,6 +148,7 @@ export class ChatService {
       name: name,
       fields: []
     })
+    this.tableSettingsService.saveTables();
     if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
       this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
     }
@@ -163,6 +164,7 @@ export class ChatService {
         name: field,
         type: type
       });
+      this.tableSettingsService.saveTables();
       if (this.codeService.currentTableIndex === tableIndex) {
         this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, tableIndex)
       }
@@ -174,6 +176,7 @@ export class ChatService {
   removeTable(name: string) {
     const tableIndex = this.getTableIndex(name);
     this.tableSettingsService.getTables().splice(tableIndex, 1)
+    this.tableSettingsService.saveTables();
     if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
       this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
     }
@@ -199,6 +202,7 @@ export class ChatService {
     }
 
     this.tableSettingsService.getTables()[tableIndex].fields.splice(fieldIndex, 1)
+    this.tableSettingsService.saveTables();
 
     if (this.codeService.currentTableIndex === tableIndex) {
       this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, tableIndex)

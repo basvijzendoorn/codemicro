@@ -59,6 +59,7 @@ export class TablesettingsdialogComponent implements OnInit {
         this.tableSettingsList[index].name = tableFormControl.value
     });
     this.tableSettingsService.tables = this.tableSettingsList
+    this.tableSettingsService.saveTables()
     if (this.codeService.currentDownloadType === DownloadType.FlywayInit) {
       this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
     }

@@ -5,7 +5,7 @@
 
 <div>
   <mat-accordion multi>
-    <mat-expansion-panel *ngFor="let table of getTables(); let tableIndex = index" [expanded]="tableIndex === 0">
+    <mat-expansion-panel *ngFor="let table of getTables(); let tableIndex = index" [expanded]="getExpanded(tableIndex)" (opened)="opened(tableIndex)" (closed)="closed(tableIndex)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <h4>{{table.name}}</h4>

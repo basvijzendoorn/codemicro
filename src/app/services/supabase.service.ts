@@ -4,12 +4,19 @@ import { AuthSession, createClient, Session, User, UserResponse } from '@supabas
 import { homeUrl } from 'src/environments/environment';
 import { Thumbs } from 'swiper';
 
+export interface Project {
+  name: string,
+  id: number,
+  user_id: string,
+  tables: any
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SupabaseService {
 
-  projects = []
+  projects: Project[] = []
 
   currentSession: Session | null = null;
 
@@ -108,14 +115,27 @@ export class SupabaseService {
     this.router.navigate(['']);
   }
 
-  async getProjects() {
+  getProjects() {
+    return this.projects;
+  }
 
+  async updateProjects() {
     let { data, error } = await this.supabase
       .from('Projects')
-      .select('id');
-
-    alert(JSON.stringify(data));
-
+      .select('name, id, tables, user_id')
+      .order('name')
+    if (error === null) {
+      this.projects = data ?? [];
+    }
     //return this.projects;
+  }
+
+  async newProject(name: string) {
+    const { data, error } = await this.supabase
+      .from('Projects')
+      .insert([
+        { name: name, user_id: this.currentSession?.user.id, tables: [] },
+      ]);
+    await this.updateProjects();
   }
 }

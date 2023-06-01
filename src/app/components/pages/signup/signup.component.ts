@@ -33,7 +33,6 @@ export class SignupComponent implements OnInit {
     PasswordValidators.patternValidator(new RegExp("(?=.*[a-z])"), {
       requiresLowercase: true
     })
-
   ]);
   termsFormControl = new FormControl('', [Validators.requiredTrue]);
   termsInvalid = false;

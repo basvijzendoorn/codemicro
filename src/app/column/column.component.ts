@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CodeService, DownloadType } from '../services/code.service';
 import { saveAs } from 'file-saver';
 import * as JSZip from 'jszip';
@@ -7,6 +7,9 @@ import { Node } from '../services/node.service';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ChatService } from '../services/chat.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TableSettingsService } from '../services/table-settings.service';
+import { SupabaseService } from '../services/supabase.service';
 
 
 @Component({
@@ -19,8 +22,14 @@ export class ColumnComponent implements OnInit {
   constructor(private codeservice: CodeService,
               private nodeService: NodeService,
               private clipboard: Clipboard,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private route: ActivatedRoute,
+              private tableSettingsService: TableSettingsService,
+              private supabaseService: SupabaseService) {
   }
+
+  // @Input() id: string = "";
+  // @Input() name: string = "";
 
   async copyToClipboard() {
     this.clipboard.copy(this.codeservice.code);
@@ -65,11 +74,16 @@ export class ColumnComponent implements OnInit {
     return this.codeservice.getCurrentFileName();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.route.params.subscribe( async params =>  {
+      const {data, error} = await this.supabaseService.supabase.from('Projects').select('name,id,user_id,tables').eq('id', params['id']);
+      if (error === null && data != null) {
+        this.tableSettingsService.setProject(data[0]);
+      }
+    });
   }
 
   isChatActive() {
-    console.log(this.chatService.isChatActive());
     return this.chatService.isChatActive();
   }
 }

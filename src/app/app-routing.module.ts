@@ -18,7 +18,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'build',
+    path: 'build/:id/:name',
     component: ColumnComponent,
     canActivate: [LoginGuard]
   },

@@ -94,6 +94,9 @@ import { VerifyEmailComponent } from './components/pages/verify-email/verify-ema
 import { ChatComponent } from './chat/chat.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { PasswordChangeComponent } from './components/pages/password-change/password-change.component';
+import { AddprojectdialogComponent } from './addprojectdialog/addprojectdialog.component';
+import { ChangeprojectdialogComponent } from './changeprojectdialog/changeprojectdialog.component';
+import { DeleteprojectdialogComponent } from './deleteprojectdialog/deleteprojectdialog.component';
 
 
 
@@ -137,7 +140,10 @@ import { PasswordChangeComponent } from './components/pages/password-change/pass
     VerifyEmailComponent,
     ChatComponent,
     ProjectsComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    AddprojectdialogComponent,
+    ChangeprojectdialogComponent,
+    DeleteprojectdialogComponent
   ],
   imports: [
     BrowserModule,

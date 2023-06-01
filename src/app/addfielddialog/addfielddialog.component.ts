@@ -29,6 +29,7 @@ export class AddfielddialogComponent implements OnInit {
       name: name,
       type: this.type ?? ""
     });
+    this.tableSettingsService.saveTables();
     if (this.codeService.currentTableIndex === this.tableIndex) {
       this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.tableIndex)
     }

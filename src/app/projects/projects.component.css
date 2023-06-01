@@ -8,6 +8,7 @@ div.ibex-add{
 }
 div.ibex-project {
   cursor: pointer;
+  /* margin-bottom: 24px; */
 }
 div.ibex-projecttitle {
   display: flex;

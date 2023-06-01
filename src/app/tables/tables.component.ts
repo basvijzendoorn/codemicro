@@ -17,11 +17,25 @@ export class TablesComponent implements OnInit {
   constructor(private tableSettingsService: TableSettingsService,
     private dialog: MatDialog) { }
 
+  expanded: boolean[] = this.tableSettingsService.getTables().map(table=> false);
+
   ngOnInit(): void {
+  }
+
+  getExpanded(tableIndex:number ) {
+    return this.expanded[tableIndex];
   }
 
   getTables() {
     return this.tableSettingsService.getTables();
+  }
+
+  opened(tableIndex: number){
+    this.expanded[tableIndex] = true;
+  }
+
+  closed(tableIndex: number) {
+    this.expanded[tableIndex] = false;
   }
 
   addTable() {
