@@ -71,12 +71,14 @@ export class ExploretreeComponent {
 
   ngOnInit() {
     //var controllerNode = this.nodes[0].children[0].children[0].children[0].children[0];
-    this.codeService.getControllerCode(0).subscribe(code => {
-      this.codeService.code = code
-      this.codeService.currentTableIndex = 0
-      this.codeService.currentDownloadType = DownloadType.Controller
-    });
-    this.codeService.currentFileName = this.tableSettingsService.getTables()[0].name + "Controller.java"
+
+    // this.codeService.getControllerCode(0).subscribe(code => {
+    //   this.codeService.code = code
+    //   this.codeService.currentTableIndex = 0
+    //   this.codeService.currentDownloadType = DownloadType.Controller
+    // });
+    // this.codeService.currentFileName = this.tableSettingsService.getTables()[0].name + "Controller.java"
+    
     //this.codeService.downloadCode(controllerNode.downloadType ?? DownloadType.Controller, controllerNode.name, controllerNode.tableIndex);
   }
 

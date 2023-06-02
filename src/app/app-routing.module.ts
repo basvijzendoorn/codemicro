@@ -11,6 +11,8 @@ import { VerifyEmailComponent } from './components/pages/verify-email/verify-ema
 import { LoginGuard } from './login.guard';
 import { ProjectsComponent } from './projects/projects.component';
 import { PasswordChangeComponent } from './components/pages/password-change/password-change.component';
+import { BuildGuard } from './build.guard';
+import { BuildAuthGuard } from './build-auth.guard';
 
 const routes: Routes = [
   {
@@ -20,7 +22,12 @@ const routes: Routes = [
   {
     path: 'build/:id/:name',
     component: ColumnComponent,
-    canActivate: [LoginGuard]
+    canActivate: [LoginGuard, BuildAuthGuard]
+  },
+  {
+    path: 'build',
+    component: ColumnComponent,
+    canActivate: [LoginGuard, BuildGuard]
   },
   {
     path: 'projects',

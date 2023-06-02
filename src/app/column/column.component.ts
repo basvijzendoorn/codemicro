@@ -80,7 +80,14 @@ export class ColumnComponent implements OnInit {
       if (error === null && data != null) {
         this.tableSettingsService.setProject(data[0]);
       }
+
+      if ((this.tableSettingsService.currentProject?.tables.length ?? 0) === 0) {
+        this.codeservice.downloadCodeToViewer(DownloadType.Pom, 'pom.xml');
+      }
+      this.codeservice.downloadCodeToViewer(DownloadType.Controller, this.tableSettingsService.currentProject?.tables[0].name, 0);
+  
     });
+
   }
 
   isChatActive() {

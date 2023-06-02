@@ -135,7 +135,9 @@ export class SupabaseService {
       .from('Projects')
       .insert([
         { name: name, user_id: this.currentSession?.user.id, tables: [] },
-      ]);
+      ])
+      .select();
     await this.updateProjects();
+    return {data, error};
   }
 }
