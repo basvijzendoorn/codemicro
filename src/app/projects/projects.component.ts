@@ -25,6 +25,7 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.supabaseService.updateProjects();
+    console.log("new");
   }
 
   createNewProject() {

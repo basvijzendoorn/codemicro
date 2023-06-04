@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 import { CodeService, DownloadType } from '../services/code.service';
 import { TableSettingsService } from '../services/table-settings.service';
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-addtabledialog',
@@ -14,11 +16,43 @@ export class AddtabledialogComponent implements OnInit {
               private codeService: CodeService,
               private chatService: ChatService) { }
 
+  nameFormControl = new FormControl('', [
+    Validators.pattern('[A-Z][a-zA-Z0-9_$]*'),
+    Validators.required,
+    this.uniqueTableNameValidator()
+  ])
+
   ngOnInit(): void {
   }
 
-  add(name: string) {
-    this.chatService.addTable(name)
+  giveHint: boolean = false;
+
+  add() {
+    if (this.nameInvalid) {
+      this.chatService.addTable(this.nameFormControl.value);
+    } else {
+      this.giveHint = true;
+    }
+  }
+
+  get required() {
+    return this.nameFormControl.hasError("required")
+  }
+
+  get nameInvalid() {
+    return this.nameFormControl.hasError("pattern") ;
+  }
+
+  get tableExists() {
+    return this.nameFormControl.hasError('tableExists');
+  }
+
+  uniqueTableNameValidator(): ValidatorFn {
+    const tableNames = this.tableSettingsService.getTables().map(table => table.name);
+
+    return (control:AbstractControl): ValidationErrors | null => {
+      return tableNames.includes(control.value) ? {tableExists: true} : null;
+    }
   }
 
 }
