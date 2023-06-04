@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CodeService, DownloadType } from '../services/code.service';
 import { FieldSettings, TableSettings, TableSettingsService } from '../services/table-settings.service';
 
@@ -24,7 +24,7 @@ export class TablesettingsdialogComponent implements OnInit {
     const tableFormControls: FormControl[] = []
 
     this.tableSettingsList.forEach(tableSettings => {
-       tableFormControls.push(this.createTable(tableSettings.name));
+       tableFormControls.push(this.createTableFormControl(tableSettings.name));
     })
 
     this.form = this.formBuilder.group({
@@ -32,10 +32,12 @@ export class TablesettingsdialogComponent implements OnInit {
     })
   }
 
-  public createTable(tableName: string): FormControl {
-    const tableFormController = this.formBuilder.control({
-      field: [ '', [ Validators.required ] ]
-    });
+  public createTableFormControl(tableName: string): FormControl {
+    const tableFormController = new FormControl('', [
+      Validators.pattern('[A-Z][a-zA-Z0-9_$]*'),
+      Validators.required,
+      // this.uniqueTableNameValidator(tableName)
+    ])
     tableFormController.setValue(tableName);
     return tableFormController;
   }
@@ -64,4 +66,42 @@ export class TablesettingsdialogComponent implements OnInit {
       this.codeService.downloadCodeToViewer(DownloadType.FlywayInit, this.codeService.currentFileName);
     }
   }
+
+  // get required() {
+  //   return this.nameFormControl.hasError("required");
+  // }
+
+  // get nameInvalid() {
+  //   return this.nameFormControl.hasError("pattern");
+  // }
+
+  // get tableExists() {
+  //   return this.nameFormControl.hasError('tableExists');
+  // }
+
+  formControlsHaveErrors() {
+    return this.getTablesFormControlList()
+      .map(formControl => formControl.hasError('pattern') || formControl.hasError('required'))
+      .includes(true)
+  }
+
+  noDoubleTableNames() {
+    const tableNames = this.getTablesFormControlList().map(formControl => formControl.value)
+    return new Set(tableNames).size < tableNames.length;
+  }
+
+  // uniqueTableNameValidator(currentTableName: string): ValidatorFn {
+  //   const tableNames = this.tableSettingsService.getTables()
+  //     .map(table => table.name)
+  //     .filter(tableName => tableName != currentTableName)
+
+  //   return (control:AbstractControl): ValidationErrors | null => {
+  //     const tableFormControls = this.getTablesFormControlList();
+  //     // const tableNames = tableFormControls.filter(formControl => formControl === control)
+  //     //   .map(formControl => formControl.value)
+
+  //     return tableNames.includes(control.value) ? {tableExists: true} : null;
+  //   }
+  // }
+
 }

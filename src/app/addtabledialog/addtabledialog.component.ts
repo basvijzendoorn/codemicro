@@ -20,27 +20,22 @@ export class AddtabledialogComponent implements OnInit {
     Validators.pattern('[A-Z][a-zA-Z0-9_$]*'),
     Validators.required,
     this.uniqueTableNameValidator()
-  ])
+  ]);
 
   ngOnInit(): void {
   }
 
-  giveHint: boolean = false;
 
   add() {
-    if (this.nameInvalid) {
-      this.chatService.addTable(this.nameFormControl.value);
-    } else {
-      this.giveHint = true;
-    }
+    this.chatService.addTable(this.nameFormControl.value);
   }
 
   get required() {
-    return this.nameFormControl.hasError("required")
+    return this.nameFormControl.hasError("required");
   }
 
   get nameInvalid() {
-    return this.nameFormControl.hasError("pattern") ;
+    return this.nameFormControl.hasError("pattern");
   }
 
   get tableExists() {
@@ -54,5 +49,7 @@ export class AddtabledialogComponent implements OnInit {
       return tableNames.includes(control.value) ? {tableExists: true} : null;
     }
   }
+
+
 
 }
