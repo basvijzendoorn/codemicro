@@ -13,6 +13,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { PasswordChangeComponent } from './components/pages/password-change/password-change.component';
 import { BuildGuard } from './build.guard';
 import { BuildAuthGuard } from './build-auth.guard';
+import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,9 @@ const routes: Routes = [
     path: 'change-password',
     component: PasswordChangeComponent,
     canActivate: [LoginGuard]
+  }, {
+    path: 'terms',
+    component: TermsComponent
   },
   // {
   //   path: 'verify-email-address',

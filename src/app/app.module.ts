@@ -97,6 +97,7 @@ import { PasswordChangeComponent } from './components/pages/password-change/pass
 import { AddprojectdialogComponent } from './addprojectdialog/addprojectdialog.component';
 import { ChangeprojectdialogComponent } from './changeprojectdialog/changeprojectdialog.component';
 import { DeleteprojectdialogComponent } from './deleteprojectdialog/deleteprojectdialog.component';
+import { TermsComponent } from './terms/terms.component';
 
 
 
@@ -143,7 +144,8 @@ import { DeleteprojectdialogComponent } from './deleteprojectdialog/deleteprojec
     PasswordChangeComponent,
     AddprojectdialogComponent,
     ChangeprojectdialogComponent,
-    DeleteprojectdialogComponent
+    DeleteprojectdialogComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,
