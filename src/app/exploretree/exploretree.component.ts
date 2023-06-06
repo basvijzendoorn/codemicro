@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CodeService, DownloadType } from '../services/code.service';
 import { NodeService } from '../services/node.service';
-import { TableSettings, TableSettingsService } from '../services/table-settings.service';
+import { Table, TableSettingsService } from '../services/table-settings.service';
 
 
 // const TREE_DATA: TreeNode[] = [

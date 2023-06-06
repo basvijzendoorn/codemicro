@@ -134,7 +134,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase
       .from('Projects')
       .insert([
-        { name: name, user_id: this.currentSession?.user.id, tables: [] },
+        { name: name, user_id: this.currentSession?.user.id, tables: {tables: [], relationships: []} },
       ])
       .select();
     await this.updateProjects();

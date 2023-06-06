@@ -7,6 +7,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -101,6 +102,7 @@ import { TermsComponent } from './terms/terms.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -173,7 +175,8 @@ import { TermsComponent } from './terms/terms.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule
   ],
   providers: [
     {

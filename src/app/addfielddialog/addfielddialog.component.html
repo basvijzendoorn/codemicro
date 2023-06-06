@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Field</h2>
+<h2 mat-dialog-title>Add field to {{getTable().name}}</h2>
 
 <div mat-dialog-content>
   <div>
@@ -28,14 +28,61 @@
           <mat-icon>access_time</mat-icon>Datetime
         </div>
       </mat-button-toggle>
+      <mat-button-toggle value="relationship">
+        <div class="button">
+          <mat-icon>horizontal_rule</mat-icon>Relationship
+        </div>
+      </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <br>
-  <div>
+  <div *ngIf="getType() === 'relationship'" class="button-group">
+    <mat-button-toggle-group [(value)]="relationship" name="relationship" aria-label="Relationship" >
+      <mat-button-toggle value="onetoone">
+        <div class="button">
+          <mat-icon>horizontal_rule</mat-icon>One to One
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="onetomany">
+        <div class="button">
+          <mat-icon>east</mat-icon>One to Many
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="manytoone">
+        <div class="button">
+          <mat-icon>west</mat-icon>Many to One
+        </div>
+      </mat-button-toggle>
+      <mat-button-toggle value="manytomany">
+        <div class="button">
+          <mat-icon>compare_arrows</mat-icon>Many to Many
+        </div>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div class="targetTable" *ngIf="getType() === 'relationship'">
+    <mat-form-field>
+      <mat-label>Target Table</mat-label>
+      <mat-select [(value)]="targetTable">
+        <mat-option value="{{table.name}}" *ngFor="let table of getTables()">{{table.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="getRelationship() === 'manytomany'">
+      <mat-label>Intermediate Table Name</mat-label>
+      <input matInput required [formControl]="intermediateTableNameFormControl">
+    </mat-form-field>    
+  </div>
+  <div class="names">
     <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
-      <input matInput required [formControl]="nameFormControl">
+      <mat-label>Field Name</mat-label>
+      <input matInput required [formControl]="nameFormControl" [placeholder]="getFieldNamePlaceholder()">
       <mat-hint *ngIf="fieldExists">Field already exists.</mat-hint>
+      <mat-hint *ngIf="getType() === 'relationship'">{{getFieldNameHint()}}</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill" *ngIf="getType() === 'relationship'">
+      <mat-label>Target Field Name</mat-label>
+      <input matInput required [formControl]="targetNameFormControl" [placeholder]="getTargetFieldNamePlaceholder()">
+      <mat-hint *ngIf="fieldExists">Field already exists.</mat-hint>
+      <mat-hint *ngIf="getType() === 'relationship'">{{getTargetFieldNameHint()}}</mat-hint>
     </mat-form-field>
   </div>
 </div>

@@ -5,3 +5,22 @@
 .button mat-icon{
   margin-right: 4px;
 }
+
+div.button-group {
+  margin-top: 12px;
+}
+
+div.targetTable {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+}
+div.names {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+}
+
+mat-form-field {
+  width: 300px;
+}

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
 import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
 import { CodeService } from '../services/code.service';
-import { FieldSettings, TableSettings, TableSettingsService } from '../services/table-settings.service';
+import { FieldSettings, Table, TableSettingsService } from '../services/table-settings.service';
 
 // export enum dataType {
 //   Integer,

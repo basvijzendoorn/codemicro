@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { booturl } from 'src/environments/environment';
-import { TableSettings, TableSettingsService } from './table-settings.service';
+import { Table, TableSettingsService } from './table-settings.service';
 
 export enum DownloadType {
   Entity,

@@ -5,12 +5,26 @@ import { Project, SupabaseService } from './supabase.service';
 
 export interface FieldSettings {
   name: string,
-  type: string
+  type: string,
+}
+
+export interface Table {
+  name: string,
+  fields: FieldSettings[],
+}
+
+export interface Relationship {
+  type: string,
+  tableName: string,
+  fieldName: string,
+  targetTableName: string,
+  targetFieldName: string,
+  intermediateTableName?: string
 }
 
 export interface TableSettings {
-  name: string,
-  fields: FieldSettings[],
+  tables: Table[],
+  relationships: Relationship[]
 }
 
 
@@ -19,7 +33,13 @@ export interface TableSettings {
 })
 export class TableSettingsService {
 
-  tables: TableSettings[] = [];
+  tableSettings: TableSettings = {
+    tables: [],
+    relationships: []
+  }
+
+  // tables: Table[] = [];
+  // relationships: Relationship[] = [];
 
   currentProject: Project | null = null;
 
@@ -32,7 +52,11 @@ export class TableSettingsService {
   }
 
   getTables() {
-    return this.tables;
+    return this.tableSettings.tables;
+  }
+
+  getRelationships() {
+    return this.tableSettings.relationships;
   }
 
   async updateTables() {
@@ -42,14 +66,14 @@ export class TableSettingsService {
       .eq('id', this.currentProject?.id);
     
     if (tablesFromSupabase.data != null) {
-      this.tables = tablesFromSupabase.data[0].tables;
+      this.tableSettings = tablesFromSupabase.data[0].tables;
     }
   }
 
   async saveTables() {
     await this.supabaseService.supabase
       .from('Projects')
-      .update({tables: this.tables})
+      .update({tables: this.tableSettings})
       .eq('id', this.currentProject?.id);
     this.updateTables();
   }
