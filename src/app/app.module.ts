@@ -34,7 +34,7 @@ import { FieldSettingsDialogComponent } from './fieldsettingsdialog/fieldsetting
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AddfielddialogComponent } from './addfielddialog/addfielddialog.component';
+import { FielddialogComponent } from './fielddialog/fielddialog.component';
 import { AddtabledialogComponent } from './addtabledialog/addtabledialog.component';
 import { TablesettingsdialogComponent } from './tablesettingsdialog/tablesettingsdialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -112,7 +112,7 @@ import { TermsComponent } from './terms/terms.component';
     TablesComponent,
     TableComponent,
     FieldSettingsDialogComponent,
-    AddfielddialogComponent,
+    FielddialogComponent,
     AddtabledialogComponent,
     TablesettingsdialogComponent,
     ExploretreeNodeComponent,

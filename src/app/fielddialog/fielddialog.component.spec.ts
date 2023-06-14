@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddfielddialogComponent } from './addfielddialog.component';
+import { FielddialogComponent } from './fielddialog.component';
 
-describe('AddfielddialogComponent', () => {
-  let component: AddfielddialogComponent;
-  let fixture: ComponentFixture<AddfielddialogComponent>;
+describe('fielddialogComponent', () => {
+  let component: FielddialogComponent;
+  let fixture: ComponentFixture<FielddialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddfielddialogComponent ]
+      declarations: [ FielddialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddfielddialogComponent);
+    fixture = TestBed.createComponent(FielddialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -73,6 +73,4 @@ export class FieldSettingsDialogComponent implements OnInit {
       return fieldNames.includes(control.value) ? {fieldExists: true} : null;
     }
   }
-
-
 }

@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.component';
+import { FielddialogComponent } from '../fielddialog/fielddialog.component';
 import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
 import { CodeService } from '../services/code.service';
 import { FieldSettings, Table, TableSettingsService } from '../services/table-settings.service';
@@ -69,8 +69,11 @@ export class TableComponent implements OnInit {
   }
 
   openAddFieldDialog() {
-    this.dialog.open(AddfielddialogComponent, {
-      data: this.tableIndex
+    this.dialog.open(FielddialogComponent, {
+      data: {
+        settingsField: false,
+        tableIndex: this.tableIndex
+      }
     })
   }
 
@@ -79,11 +82,14 @@ export class TableComponent implements OnInit {
     if (relid != undefined) {
       const tables = this.tableSettingsService.getTables();
       tables.forEach( (table, tableIndex) => {
+        const fieldsToBeDeleted: number[] = []
         table.fields.forEach( (field, fieldIndex) => {
           if (field.referenceId == relid) {
-            table.fields.splice(fieldIndex, 1);
+            fieldsToBeDeleted.push(fieldIndex);
+            // table.fields.splice(fieldIndex, 1);
           }
-        })
+        });
+        fieldsToBeDeleted.forEach((fieldIndex, index) => table.fields.splice(fieldIndex - index, 1));
       });
       const relationshipIndex = this.tableSettingsService.getRelationships().findIndex(rel => rel.id === relid)
       this.tableSettingsService.getRelationships().splice(relationshipIndex, 1);
@@ -98,8 +104,9 @@ export class TableComponent implements OnInit {
   }
 
   openSettingsDialog(fieldIndex: number) {
-    this.dialog.open(FieldSettingsDialogComponent, {
+    this.dialog.open(FielddialogComponent, {
       data: {
+        settingsField: true,
         tableIndex: this.tableIndex,
         fieldIndex: fieldIndex
       }

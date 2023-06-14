@@ -1,24 +1,31 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CodeService } from '../services/code.service';
-import { TableSettingsService } from '../services/table-settings.service';
+import { FieldSettings, TableSettingsService } from '../services/table-settings.service';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { randomInt, randomUUID } from 'crypto';
 
+interface FieldDialogInit {
+  settingsField: boolean
+  tableIndex: number,
+  fieldIndex?: number
+}
+
+
 @Component({
   selector: 'app-addfielddialog',
-  templateUrl: './addfielddialog.component.html',
-  styleUrls: ['./addfielddialog.component.css']
+  templateUrl: './fielddialog.component.html',
+  styleUrls: ['./fielddialog.component.css']
 })
-export class AddfielddialogComponent implements OnInit {
+export class FielddialogComponent implements OnInit {
 
   type?: string = "string";
-  relationship?: string = "onetomany";
+  relationshipType?: string = "onetomany";
   targetTable: string;
 
   constructor(private tableSettingsService: TableSettingsService,
     private codeService: CodeService,
-    @Inject(MAT_DIALOG_DATA) public tableIndex: number ) {
+    @Inject(MAT_DIALOG_DATA) public dialogInit: FieldDialogInit ) {
       const targTable = this.tableSettingsService.getTables().find(table => table.name != this.getTable().name)
       if (targTable === undefined) {
         this.targetTable = this.getTable().name;
@@ -44,31 +51,101 @@ export class AddfielddialogComponent implements OnInit {
   ])
 
   ngOnInit(): void {
+    if (this.dialogInit.settingsField) {
+      if (this.getField()?.type === 'onetomany' || this.getField()?.type === 'manytoone' || this.getField()?.type === 'manytomany') {
+        this.type = 'relationship';
+        this.relationshipType = this.getField()?.type;
+        const relid = this.getField()?.referenceId
+        const relationship = this.tableSettingsService.getRelationships().find(relat => relat.id === relid);
+        
+        if (this.getField()?.type === 'onetomany' && relationship != undefined) {
+          this.targetNameFormControl.setValue(relationship?.targetFieldName);
+          this.targetTable = relationship?.targetTableName;
+        } else if (this.getField()?.type === 'manytoone' && relationship != undefined) {
+          this.targetNameFormControl.setValue(relationship.fieldName);
+          this.targetTable = relationship.tableName;
+        } else if (this.getField()?.type === 'manytomany' && relationship != undefined) {
+          if (this.getField()?.name === relationship.fieldName) {
+            this.targetNameFormControl.setValue(relationship?.targetFieldName);
+            this.targetTable = relationship?.targetTableName;  
+          } else {
+            this.targetNameFormControl.setValue(relationship.fieldName);
+            this.targetTable = relationship.tableName;  
+          }
+          this.intermediateTableNameFormControl.setValue(relationship.intermediateTableName);
+        }
+      } else {
+        this.type = this.getField()?.type;
+      }
+
+      // this.type = this.getField()?.type;
+      this.nameFormControl.setValue(this.getField()?.name)
+    }
   }
 
   getTable() {
     return this.tableSettingsService
-      .getTables()[this.tableIndex]
+      .getTables()[this.dialogInit.tableIndex]
   }
 
   getTables() {
     return this.tableSettingsService.getTables();
   }
 
+  getField(): FieldSettings | undefined {
+    if (this.dialogInit.settingsField && this.dialogInit.fieldIndex != undefined) {
+      return this.tableSettingsService
+        .getTables()[this.dialogInit.tableIndex]
+        .fields[this.dialogInit.fieldIndex];
+    }
+    return undefined;
+  }
+
   getType() {
+    // if (this.type === 'onetomany' || this.type === 'manytoone' || this.type === 'manytomany' || this.type === 'onetoone') {
+    //   return 'relationship';
+    // }
     return this.type;
   }
 
   getRelationship() {
-    return this.relationship;
+    return this.relationshipType;
   }
 
-  add() {
+  save() {
+    if (this.dialogInit.settingsField && this.dialogInit.fieldIndex != undefined) {
+
+      const relid = this.getTable().fields[this.dialogInit.fieldIndex].referenceId
+      if (relid != undefined) {
+        const tables = this.tableSettingsService.getTables();
+        tables.forEach( (table, tableIndex) => {
+          const fieldsToBeDeleted: number[] = []
+          table.fields.forEach( (field, fieldIndex) => {
+            if (field.referenceId == relid) {
+              fieldsToBeDeleted.push(fieldIndex);
+              // table.fields.splice(fieldIndex, 1);
+            }
+          });
+          fieldsToBeDeleted.forEach((fieldIndex, index) => table.fields.splice(fieldIndex - index, 1));
+        });
+        const relationshipIndex = this.tableSettingsService.getRelationships().findIndex(rel => rel.id === relid)
+        this.tableSettingsService.getRelationships().splice(relationshipIndex, 1);
+      } else {
+        this.getTable().fields.splice(this.dialogInit.fieldIndex, 1);
+      }  
+      // if (this.type === 'relationship') {
+      //   this.saveEditRelationship();
+      // } else {
+      //   this.saveEditField();
+      // }
+    } 
+    
     if (this.type === 'relationship') {
       this.addRelationship();
     } else {
       this.addField();
-    }
+    }  
+    // }
   }
 
   getIntermediateTableNamePlaceholder() {
@@ -77,8 +154,6 @@ export class AddfielddialogComponent implements OnInit {
     }
     return "";
   }
-
-
 
   getFieldNamePlaceholder() {
     if (this.getType() === 'relationship') {
@@ -151,12 +226,12 @@ export class AddfielddialogComponent implements OnInit {
   }
 
   addRelationship() {
-    if (this.relationship === 'onetomany') {
-      const fieldName = this.nameFormControl.value;
-      const targetTable = this.targetTable;
-      const targetFieldName = this.targetNameFormControl.value;
-      const id = this.createRelationshipId();
+    const fieldName = this.nameFormControl.value;
+    const targetTable = this.targetTable;
+    const targetFieldName = this.targetNameFormControl.value;
+    const id = this.createRelationshipId();
 
+    if (this.relationshipType === 'onetomany') {
       this.tableSettingsService.getRelationships().push({
         id: id,
         type: 'onetomany',
@@ -179,11 +254,7 @@ export class AddfielddialogComponent implements OnInit {
       })
 
       this.tableSettingsService.saveTables();
-    } else if (this.relationship === 'manytoone') {
-      const fieldName = this.nameFormControl.value;
-      const targetTable = this.targetTable;
-      const targetFieldName = this.targetNameFormControl.value;
-      const id = this.createRelationshipId();
+    } else if (this.relationshipType === 'manytoone') {
 
       this.tableSettingsService.getRelationships().push({
         id: id,
@@ -207,12 +278,8 @@ export class AddfielddialogComponent implements OnInit {
       })
 
       this.tableSettingsService.saveTables();
-    } else if (this.relationship === 'manytomany') {
-      const fieldName = this.nameFormControl.value;
-      const targetTable = this.targetTable;
-      const targetFieldName = this.targetNameFormControl.value;
+    } else if (this.relationshipType === 'manytomany') {
       const intermediateTableName = this.intermediateTableNameFormControl.value;
-      const id = this.createRelationshipId();
 
       this.tableSettingsService.getRelationships().push({
         id: id,
@@ -246,10 +313,9 @@ export class AddfielddialogComponent implements OnInit {
       type: this.type ?? ""
     });
     this.tableSettingsService.saveTables();
-    if (this.codeService.currentTableIndex === this.tableIndex) {
-      this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.tableIndex)
+    if (this.codeService.currentTableIndex === this.dialogInit.tableIndex) {
+      this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.dialogInit.tableIndex)
     }
-
   }
 
   get required() {
@@ -268,7 +334,7 @@ export class AddfielddialogComponent implements OnInit {
     const fieldNames = this.getTable().fields.map(field => field.name);
 
     return (control:AbstractControl): ValidationErrors | null => {
-      return fieldNames.includes(control.value) ? {fieldExists: true} : null;
+      return fieldNames.filter(name => name != this.getField()?.name).includes(control.value) ? {fieldExists: true} : null;
     }
   }
 
