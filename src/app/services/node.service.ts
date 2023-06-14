@@ -44,6 +44,14 @@ export class NodeService {
                       showChildren: true,
                       children: []
                     }, {
+                      name: "dto",
+                      showChildren: true,
+                      children: []
+                    }, {
+                      name: "services",
+                      showChildren: true,
+                      children: []
+                    }, {
                       name: "repositories",
                       showChildren: true,
                       children: []
@@ -101,14 +109,29 @@ export class NodeService {
       children: []
     }));
 
-    packageFolder.children[2].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
+    packageFolder.children[2].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
+      name: tableSettings.name + "DTO.java",
+      downloadType: DownloadType.DTO,
+      tableIndex: index,
+      children: []
+    }));
+
+    packageFolder.children[3].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
+      name: tableSettings.name + "Service.java",
+      downloadType: DownloadType.Service,
+      tableIndex: index,
+      children: []
+    }));
+
+
+    packageFolder.children[4].children = this.tableSettingsService.getTables().map<Node>( (tableSettings, index) => ({
       name: tableSettings.name + "Repository.java",
       downloadType: DownloadType.Repository,
       tableIndex: index,
       children: []
     }));
 
-    packageFolder.children[3] = {
+    packageFolder.children[5] = {
       name: this.codeService.artifactId.charAt(0).toUpperCase() + this.codeService.artifactId.substring(1) + "Application.java",
       downloadType: DownloadType.Application,
       children: []

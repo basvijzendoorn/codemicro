@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CodeService } from '../services/code.service';
 import { TableSettingsService } from '../services/table-settings.service';
 import { AbstractControl, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { randomInt, randomUUID } from 'crypto';
 
 @Component({
   selector: 'app-addfielddialog',
@@ -18,7 +19,12 @@ export class AddfielddialogComponent implements OnInit {
   constructor(private tableSettingsService: TableSettingsService,
     private codeService: CodeService,
     @Inject(MAT_DIALOG_DATA) public tableIndex: number ) {
-      this.targetTable = this.getTable().name;
+      const targTable = this.tableSettingsService.getTables().find(table => table.name != this.getTable().name)
+      if (targTable === undefined) {
+        this.targetTable = this.getTable().name;
+      } else {
+        this.targetTable = targTable.name;
+      }
      }
 
   nameFormControl = new FormControl('', [
@@ -64,6 +70,15 @@ export class AddfielddialogComponent implements OnInit {
       this.addField();
     }
   }
+
+  getIntermediateTableNamePlaceholder() {
+    if (this.getType() === 'relationship' && this.getRelationship() === 'manytomany') {
+      return this.getTable().name.toLowerCase() + "_" + this.targetTable.toLowerCase()
+    }
+    return "";
+  }
+
+
 
   getFieldNamePlaceholder() {
     if (this.getType() === 'relationship') {
@@ -123,7 +138,16 @@ export class AddfielddialogComponent implements OnInit {
       }
     }
     return "";
+  }
 
+  getRandomChar() {
+    return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+  }
+
+  createRelationshipId() {
+    const id = this.getRandomChar() + this.getRandomChar()
+      + this.getRandomChar() + this.getRandomChar();
+    return id;
   }
 
   addRelationship() {
@@ -131,8 +155,10 @@ export class AddfielddialogComponent implements OnInit {
       const fieldName = this.nameFormControl.value;
       const targetTable = this.targetTable;
       const targetFieldName = this.targetNameFormControl.value;
+      const id = this.createRelationshipId();
 
       this.tableSettingsService.getRelationships().push({
+        id: id,
         type: 'onetomany',
         tableName: this.getTable().name,
         fieldName: fieldName,
@@ -140,25 +166,75 @@ export class AddfielddialogComponent implements OnInit {
         targetFieldName: targetFieldName
       })
 
-      // this.getTable().fields.push({
-      //   name: fieldName,
-      //   type: 'onetomany',
-      //   relationship: {
-      //     targetField: targetFieldName,
-      //     targetTable: targetTable
-      //   }
-      // });
+      this.getTable().fields.push({
+        type: "onetomany",
+        name: fieldName,
+        referenceId: id
+      })
 
-      // this.getTables().find(table => table.name === targetTable)?.fields.push({
-      //   name: targetFieldName,
-      //   type: 'manytoone',
-      //   relationship: {
-      //     targetField: fieldName,
-      //     targetTable: this.getTable().name
-      //   }
-      // });
+      this.getTables().find(table => table.name === targetTable)?.fields.push({
+        type: "manytoone",
+        name: targetFieldName,
+        referenceId: id
+      })
 
       this.tableSettingsService.saveTables();
+    } else if (this.relationship === 'manytoone') {
+      const fieldName = this.nameFormControl.value;
+      const targetTable = this.targetTable;
+      const targetFieldName = this.targetNameFormControl.value;
+      const id = this.createRelationshipId();
+
+      this.tableSettingsService.getRelationships().push({
+        id: id,
+        type: 'onetomany',
+        tableName: targetTable,
+        fieldName: targetFieldName,
+        targetTableName: this.getTable().name,
+        targetFieldName: fieldName
+      })
+
+      this.getTable().fields.push({
+        type: "manytoone",
+        name: fieldName,
+        referenceId: id
+      })
+
+      this.getTables().find(table => table.name === targetTable)?.fields.push({
+        type: "onetomany",
+        name: targetFieldName,
+        referenceId: id
+      })
+
+      this.tableSettingsService.saveTables();
+    } else if (this.relationship === 'manytomany') {
+      const fieldName = this.nameFormControl.value;
+      const targetTable = this.targetTable;
+      const targetFieldName = this.targetNameFormControl.value;
+      const intermediateTableName = this.intermediateTableNameFormControl.value;
+      const id = this.createRelationshipId();
+
+      this.tableSettingsService.getRelationships().push({
+        id: id,
+        type: 'manytomany',
+        tableName: this.getTable().name,
+        fieldName: fieldName,
+        targetTableName: targetTable,
+        targetFieldName: targetFieldName,
+        intermediateTableName: intermediateTableName
+      });
+
+      this.getTable().fields.push({
+        type: "manytomany",
+        name: fieldName,
+        referenceId: id
+      });
+
+      this.getTables().find(table => table.name === targetTable)?.fields.push({
+        type: "manytomany",
+        name: targetFieldName,
+        referenceId: id
+      });
     }
   }
 

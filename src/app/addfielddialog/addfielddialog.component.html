@@ -37,11 +37,11 @@
   </div>
   <div *ngIf="getType() === 'relationship'" class="button-group">
     <mat-button-toggle-group [(value)]="relationship" name="relationship" aria-label="Relationship" >
-      <mat-button-toggle value="onetoone">
+      <!-- <mat-button-toggle value="onetoone">
         <div class="button">
           <mat-icon>horizontal_rule</mat-icon>One to One
         </div>
-      </mat-button-toggle>
+      </mat-button-toggle> -->
       <mat-button-toggle value="onetomany">
         <div class="button">
           <mat-icon>east</mat-icon>One to Many
@@ -68,7 +68,7 @@
     </mat-form-field>
     <mat-form-field *ngIf="getRelationship() === 'manytomany'">
       <mat-label>Intermediate Table Name</mat-label>
-      <input matInput required [formControl]="intermediateTableNameFormControl">
+      <input matInput required [formControl]="intermediateTableNameFormControl" [placeholder]="getIntermediateTableNamePlaceholder()">
     </mat-form-field>    
   </div>
   <div class="names">

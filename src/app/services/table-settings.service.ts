@@ -6,6 +6,7 @@ import { Project, SupabaseService } from './supabase.service';
 export interface FieldSettings {
   name: string,
   type: string,
+  referenceId?: string
 }
 
 export interface Table {
@@ -14,6 +15,7 @@ export interface Table {
 }
 
 export interface Relationship {
+  id: string
   type: string,
   tableName: string,
   fieldName: string,

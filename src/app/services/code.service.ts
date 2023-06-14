@@ -5,6 +5,8 @@ import { Table, TableSettingsService } from './table-settings.service';
 
 export enum DownloadType {
   Entity,
+  DTO,
+  Service,
   Controller,
   Repository,
   FlywayInit,
@@ -26,8 +28,8 @@ export class CodeService {
   groupId = "com.example"
   artifactId = "demo"
   packageName: string = this.groupId + "." + this.artifactId
-  databaseURL: string = "jdbc:mysql://localhost:3306/databaseId"
-  databaseUser: string = "root"
+  databaseURL: string = "jdbc:postgresql://localhost:5432/code"
+  databaseUser: string = "postgres"
   databasePassword: string = "databasePassword"
   code: string = ""
   currentTableIndex: number = 0
@@ -51,6 +53,10 @@ export class CodeService {
   downloadCode(downloadType: DownloadType, tableIndex?: number) {
     if (downloadType === DownloadType.Entity) {
       return this.getEntityCode(tableIndex ?? 0)
+    } else if (downloadType === DownloadType.DTO) {
+      return this.getDtoCode(tableIndex ?? 0);
+    } else if (downloadType === DownloadType.Service) {
+      return this.getServiceCode(tableIndex ?? 0);
     } else if (downloadType === DownloadType.Application) {
       return this.getApplicationCode()
     } else if (downloadType === DownloadType.Controller) {
@@ -68,13 +74,24 @@ export class CodeService {
     }
   }
 
-  downloadCodeToViewer(downloadType: DownloadType, fileName: string, tableIndex?: number) {
+  downloadCodeToViewer(downloadType: DownloadType, fileName: string, tableIndex?: number) {
     this.downloadCode(downloadType, tableIndex).subscribe(code => {
       this.code = code
       this.currentTableIndex = tableIndex ?? 0
       this.currentDownloadType = downloadType
     });
     this.currentFileName = fileName;
+  }
+
+  typeIsRelationship(type: string) {
+    if (type === 'onetoone' || type === 'onetomany' || type === 'manytoone' || type === 'manytomany') {
+      return true;
+    }
+    return false;
+  }
+
+  getRelationship(id?: string) {
+    return this.tableSettingsService.getRelationships().find(relationship => relationship.id === id);
   }
 
 
@@ -85,12 +102,66 @@ export class CodeService {
         "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(field => {
           return {
             "name": field.name,
-            "type": field.type.toUpperCase()
+            "type": field.type.toUpperCase(),
+            "relationship" : this.typeIsRelationship(field.type) ? {
+              "type": this.getRelationship(field.referenceId)?.type,
+              "tableName": this.getRelationship(field.referenceId)?.tableName,
+              "fieldName": this.getRelationship(field.referenceId)?.fieldName,
+              "targetTableName": this.getRelationship(field.referenceId)?.targetTableName,
+              "targetFieldName": this.getRelationship(field.referenceId)?.targetFieldName,
+              "intermediateTableName": this.getRelationship(field.referenceId)?.intermediateTableName
+            } : null
           };
         })
         //"fields": this.tableSettingsService.getTables()[tableIndex].fields.map(fieldSettings => fieldSettings.name)
       },
       {responseType: 'text'});
+  }
+
+  getDtoCode(tableIndex: number) {
+    return this.http.post(booturl + "/dto", {
+        "packageName": this.packageName,
+        "name": this.tableSettingsService.getTables()[tableIndex].name,
+        "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(field => {
+          return {
+            "name": field.name,
+            "type": field.type.toUpperCase(),
+            "relationship" : this.typeIsRelationship(field.type) ? {
+              "type": this.getRelationship(field.referenceId)?.type,
+              "tableName": this.getRelationship(field.referenceId)?.tableName,
+              "fieldName": this.getRelationship(field.referenceId)?.fieldName,
+              "targetTableName": this.getRelationship(field.referenceId)?.targetTableName,
+              "targetFieldName": this.getRelationship(field.referenceId)?.targetFieldName,
+              "intermediateTableName": this.getRelationship(field.referenceId)?.intermediateTableName
+            } : null
+          }
+        })
+    },{
+      responseType: 'text'
+    });
+  }
+
+  getServiceCode(tableIndex: number) {
+    return this.http.post(booturl + "/service", {
+      "packageName": this.packageName,
+      "modelName": this.tableSettingsService.getTables()[tableIndex].name,
+      "fields": this.tableSettingsService.getTables()[tableIndex].fields.map(field => {
+        return {
+          "name": field.name,
+          "type": field.type.toUpperCase(),
+          "relationship" : this.typeIsRelationship(field.type) ? {
+            "type": this.getRelationship(field.referenceId)?.type,
+            "tableName": this.getRelationship(field.referenceId)?.tableName,
+            "fieldName": this.getRelationship(field.referenceId)?.fieldName,
+            "targetTableName": this.getRelationship(field.referenceId)?.targetTableName,
+            "targetFieldName": this.getRelationship(field.referenceId)?.targetFieldName,
+            "intermediateTableName": this.getRelationship(field.referenceId)?.intermediateTableName
+          } : null
+        }
+      })
+    },{
+      responseType: 'text'
+    });
   }
 
   getFlywayInitCode() {
@@ -100,7 +171,15 @@ export class CodeService {
         "fields": table.fields.map(field => {
           return {
             "name": field.name,
-            "type": field.type.toUpperCase()
+            "type": field.type.toUpperCase(),
+            "relationship" : this.typeIsRelationship(field.type) ? {
+              "type": this.getRelationship(field.referenceId)?.type,
+              "tableName": this.getRelationship(field.referenceId)?.tableName,
+              "fieldName": this.getRelationship(field.referenceId)?.fieldName,
+              "targetTableName": this.getRelationship(field.referenceId)?.targetTableName,
+              "targetFieldName": this.getRelationship(field.referenceId)?.targetFieldName,
+              "intermediateTableName": this.getRelationship(field.referenceId)?.intermediateTableName
+            } : null
           }
         })
       }

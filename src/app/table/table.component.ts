@@ -5,6 +5,7 @@ import { AddfielddialogComponent } from '../addfielddialog/addfielddialog.compon
 import { FieldSettingsDialogComponent } from '../fieldsettingsdialog/fieldsettingsdialog.component';
 import { CodeService } from '../services/code.service';
 import { FieldSettings, Table, TableSettingsService } from '../services/table-settings.service';
+import { table } from 'console';
 
 // export enum dataType {
 //   Integer,
@@ -30,20 +31,7 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // @Input() tableSettings: tableSettings = {
-  //   name: "Table",
-  //   fields: []
-  // }
-
   @Input() tableIndex: number = 0;
-
-  // columns: column[] = [{
-  //   name: "id",
-  //   type: dataType.Integer
-  // }, {
-  //   name: "name",
-  //   type: dataType.String
-  // }];
 
   typeToIcon(type: string) {
     if (type == 'string') {
@@ -56,6 +44,14 @@ export class TableComponent implements OnInit {
       return 'calendar_month';
     } else if (type == 'datetime') {
       return 'access_time';
+    } else if (type == 'onetoone') {
+      return 'horizontal_rule'
+    } else if (type == 'onetomany') {
+      return 'east';
+    } else if (type == 'manytoone') {
+      return 'west';
+    } else if (type == 'manytomany') {
+      return 'compare_arrows';
     }
     return 'subject';
   }
@@ -70,14 +66,7 @@ export class TableComponent implements OnInit {
     if (this.codeService.currentTableIndex === this.tableIndex) {
       this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.tableIndex)
     }
-    // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
-
-  // add() {
-  //   this.getTable().fields = this.getTable().fields.concat([{
-  //     name: "newColumn",
-  //   }]);
-  // }
 
   openAddFieldDialog() {
     this.dialog.open(AddfielddialogComponent, {
@@ -86,7 +75,22 @@ export class TableComponent implements OnInit {
   }
 
   delete(fieldIndex: number) {
-    this.getTable().fields.splice(fieldIndex, 1);
+    const relid = this.getTable().fields[fieldIndex].referenceId
+    if (relid != undefined) {
+      const tables = this.tableSettingsService.getTables();
+      tables.forEach( (table, tableIndex) => {
+        table.fields.forEach( (field, fieldIndex) => {
+          if (field.referenceId == relid) {
+            table.fields.splice(fieldIndex, 1);
+          }
+        })
+      });
+      const relationshipIndex = this.tableSettingsService.getRelationships().findIndex(rel => rel.id === relid)
+      this.tableSettingsService.getRelationships().splice(relationshipIndex, 1);
+    } else {
+      this.getTable().fields.splice(fieldIndex, 1);
+    }
+
     this.tableSettingsService.saveTables()
     if (this.codeService.currentTableIndex === this.tableIndex) {
       this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.tableIndex)
