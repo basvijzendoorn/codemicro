@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { aiurl, environment } from 'src/environments/environment';
 import { CodeService, DownloadType } from './code.service';
 import { TableSettingsService } from './table-settings.service';
+import { OpenaiService } from './openai.service';
 
 export interface AIEntity {
   name: string,
@@ -26,14 +27,17 @@ export class ChatService {
 
   constructor(private http: HttpClient,
               private tableSettingsService: TableSettingsService,
-              private codeService: CodeService) { }
+              private codeService: CodeService,
+              private openaiService: OpenaiService) { 
+
+  }
 
   types = ["string", "datetime", "date", "number", "integer", "long", "text", "double", "float"]
   chatActive: boolean = true;
   chats: Chat[] = [{
     text: "As an AI chatbot I can add and remove tables and fields.",
     ibex: true
-  }]
+  }];
 
   getChats() {
     return this.chats;
@@ -57,67 +61,77 @@ export class ChatService {
     });
   }
 
-  update(text: string) {
-    this.chats.push({
-      text: text,
-      ibex: false
-    })
+  async update(text: string) {
 
-    text = text.replaceAll(',',' , ').replaceAll('_',' _ ').replaceAll('.', ' . ').replaceAll('/', ' / ').replaceAll("\"", " \" ")
+    this.openaiService.downloadopenai(text);
 
-    var table = "", field = "", type = ""
+    // const completion = await this.openai.chat.completions.create({
+    //   messages: [{ role: 'user', content: 'Say this is a test' }],
+    //   model: 'gpt-3.5-turbo',  
+    // });
 
-    const replacedText = text.split(" ").map(entity => {
-      if (this.isTable(entity)) {
-        table = entity
-        return "T#"
-      }
-      else if (this.isField(entity)) {
-        field = entity
-        return "F#"
-      }
-      else if (this.isType(entity)) {
-        type = entity
-        return "Y#"
-      }
-      else return entity
-    }).join(" ")
+    // console.log(completion.choices);
 
-    this.http.post<AIResponse>(aiurl, {
-      "text": replacedText
-    }).subscribe(resp => {
-      if (resp.task == "AddTable") {
-        this.addTable(resp.entities[0].name)
-        this.chats.push({
-          text: "Added table " + resp.entities[0].name + ".",
-          ibex: true
-        })
-      } else if (resp.task == "AddToTable") {
-        this.addToTable(table, resp.entities[0].name, "string")
-        this.chats.push({
-          text: "Added field " + resp.entities[0].name + " to table " + table + ".",
-          ibex: true
-        })
-      } else if (resp.task == "AddType") {
-        this.addToTable(table, resp.entities[0].name, type)
-        this.chats.push({
-          text: "Added field " + resp.entities[0].name + " with type " + type + " to " + table + ".",
-          ibex: true
-        })
-      } else if (resp.task == "RemoveTable") {
-        this.removeTable(table);
-        this.chats.push({
-          text: "Removed table " + table + ".",
-          ibex: true
-        })
-      } else if (resp.task == "RemoveField") {
-        this.removeField(field, table);
-        this.chats.push({
-          text: "Removed field " + field + " from table " + table + ".",
-          ibex: true
-        })
-      }
-    })
+    // this.chats.push({
+    //   text: text,
+    //   ibex: false
+    // })
+
+    // text = text.replaceAll(',',' , ').replaceAll('_',' _ ').replaceAll('.', ' . ').replaceAll('/', ' / ').replaceAll("\"", " \" ")
+
+    // var table = "", field = "", type = ""
+
+    // const replacedText = text.split(" ").map(entity => {
+    //   if (this.isTable(entity)) {
+    //     table = entity
+    //     return "T#"
+    //   }
+    //   else if (this.isField(entity)) {
+    //     field = entity
+    //     return "F#"
+    //   }
+    //   else if (this.isType(entity)) {
+    //     type = entity
+    //     return "Y#"
+    //   }
+    //   else return entity
+    // }).join(" ")
+
+    // this.http.post<AIResponse>(aiurl, {
+    //   "text": replacedText
+    // }).subscribe(resp => {
+    //   if (resp.task == "AddTable") {
+    //     this.addTable(resp.entities[0].name)
+    //     this.chats.push({
+    //       text: "Added table " + resp.entities[0].name + ".",
+    //       ibex: true
+    //     })
+    //   } else if (resp.task == "AddToTable") {
+    //     this.addToTable(table, resp.entities[0].name, "string")
+    //     this.chats.push({
+    //       text: "Added field " + resp.entities[0].name + " to table " + table + ".",
+    //       ibex: true
+    //     })
+    //   } else if (resp.task == "AddType") {
+    //     this.addToTable(table, resp.entities[0].name, type)
+    //     this.chats.push({
+    //       text: "Added field " + resp.entities[0].name + " with type " + type + " to " + table + ".",
+    //       ibex: true
+    //     })
+    //   } else if (resp.task == "RemoveTable") {
+    //     this.removeTable(table);
+    //     this.chats.push({
+    //       text: "Removed table " + table + ".",
+    //       ibex: true
+    //     })
+    //   } else if (resp.task == "RemoveField") {
+    //     this.removeField(field, table);
+    //     this.chats.push({
+    //       text: "Removed field " + field + " from table " + table + ".",
+    //       ibex: true
+    //     })
+    //   }
+    // })
   }
 
   isTable(name: string) {

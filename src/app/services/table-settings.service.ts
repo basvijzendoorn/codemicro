@@ -29,7 +29,6 @@ export interface TableSettings {
   relationships: Relationship[]
 }
 
-
 @Injectable({
   providedIn: 'root'
 })

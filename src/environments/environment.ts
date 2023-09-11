@@ -15,8 +15,8 @@ export const environment = {
   }
 };
 
-export const booturl = "http://localhost:8080"
-export const aiurl = "https://localhost:5000"
+export const booturl = "https://boot.ibexapps.com"
+export const aiurl = "http://localhost:80"
 export const homeUrl = "http://localhost:4200"
 
 /*

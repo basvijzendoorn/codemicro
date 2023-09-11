@@ -100,9 +100,6 @@ import { ChangeprojectdialogComponent } from './changeprojectdialog/changeprojec
 import { DeleteprojectdialogComponent } from './deleteprojectdialog/deleteprojectdialog.component';
 import { TermsComponent } from './terms/terms.component';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

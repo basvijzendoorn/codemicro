@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { booturl } from 'src/environments/environment';
 import { Table, TableSettingsService } from './table-settings.service';
@@ -244,6 +244,18 @@ export class CodeService {
     }, {
       responseType: 'text'
     });
+  }
+
+  deployCode(file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const params = new HttpParams();
+    const options = {
+      params: params
+    }
+
+    return this.http.post(booturl + "/deploy", formData, options);
   }
 
 }

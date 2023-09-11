@@ -138,6 +138,7 @@ export class FielddialogComponent implements OnInit {
       // } else {
       //   this.saveEditField();
       // }
+
     } 
     
     if (this.type === 'relationship') {
@@ -252,8 +253,6 @@ export class FielddialogComponent implements OnInit {
         name: targetFieldName,
         referenceId: id
       })
-
-      this.tableSettingsService.saveTables();
     } else if (this.relationshipType === 'manytoone') {
 
       this.tableSettingsService.getRelationships().push({
@@ -277,7 +276,6 @@ export class FielddialogComponent implements OnInit {
         referenceId: id
       })
 
-      this.tableSettingsService.saveTables();
     } else if (this.relationshipType === 'manytomany') {
       const intermediateTableName = this.intermediateTableNameFormControl.value;
 
@@ -303,6 +301,7 @@ export class FielddialogComponent implements OnInit {
         referenceId: id
       });
     }
+    this.tableSettingsService.saveTables();
   }
 
   addField() {
@@ -312,7 +311,9 @@ export class FielddialogComponent implements OnInit {
       name: name,
       type: this.type ?? ""
     });
+    
     this.tableSettingsService.saveTables();
+
     if (this.codeService.currentTableIndex === this.dialogInit.tableIndex) {
       this.codeService.downloadCodeToViewer(this.codeService.currentDownloadType, this.codeService.currentFileName, this.dialogInit.tableIndex)
     }

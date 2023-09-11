@@ -43,7 +43,10 @@ export class ColumnComponent implements OnInit {
     await this.addToZip(this.nodeService.getNodes()[2], zip)
 
     zip.generateAsync({type:"blob"})
-    .then(function(content) {
+    .then((content) => {
+      var file = new File([content], "code.zip");
+      this.codeservice.deployCode(file).subscribe();
+
       // see FileSaver.js
       saveAs(content, "code.zip");
     });
@@ -57,7 +60,7 @@ export class ColumnComponent implements OnInit {
       var newFolderZip = zip;
       node.name.split(".").forEach(nodeName => {
          newFolderZip = newFolderZip.folder(nodeName);
-      })
+      });
       // if (node.name.indexOf(".") !== undefined) {
 
       // } else {
@@ -85,13 +88,10 @@ export class ColumnComponent implements OnInit {
         this.codeservice.downloadCodeToViewer(DownloadType.Pom, 'pom.xml');
       }
       this.codeservice.downloadCodeToViewer(DownloadType.Controller, this.tableSettingsService.currentProject?.tables[0].name, 0);
-  
     });
-
   }
 
   isChatActive() {
     return this.chatService.isChatActive();
   }
 }
-

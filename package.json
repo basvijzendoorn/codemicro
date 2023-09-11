@@ -29,6 +29,7 @@
     "glightbox": "^3.2.0",
     "highlight.js": "^11.4.0",
     "highlightjs-line-numbers.js": "^2.8.0",
+    "http-server": "^14.1.1",
     "jszip": "^3.10.1",
     "material-design-icons": "^3.0.1",
     "ngx-highlightjs": "^6.1.1",
