@@ -22,8 +22,63 @@ export class OpenaiService {
         "prompt": prompt
     }).subscribe(resp => {
       console.log(resp);
-      this.addPromptToTables(resp.content);
+      // this.addPromptToTables(resp.content);
+      this.addTableToTables(resp.content);
     })
+  }
+
+  
+
+  addTableToTables(content: string) {
+    // content = 'Here is an example of a database schema in SQL that includes tables for reservations and bookings:\n\n```\nCREATE TABLE reservations (\n  id INT PRIMARY KEY,\n  guest_name VARCHAR(100),\n  check_in_date DATE,\n  check_out_date DATE,\n  room_number INT,\n  total_price DECIMAL(10, 2),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE bookings (\n  id INT PRIMARY KEY,\n  reservation_id INT,\n  booking_date DATE,\n  FOREIGN KEY (reservation_id) REFERENCES reservations(id)\n);\n```\n\nExplanation:\n- The `reservations` table includes columns for reservation ID, guest name, check-in date, check-out date, room number, total price, and created timestamp.\n- The `bookings` table includes columns for booking ID, reservation ID (foreign key referencing the reservations table), and the booking date.\n\nThese tables can be used to store information about reservations made by guests and bookings made for those reservations. Each reservation will have a unique ID, with relevant details such as guest name, check-in/check-out dates, and room number. The bookings table will have a unique ID for each booking along with its corresponding reservation.'
+
+    let lines = content.split('\n');
+
+
+    let startTableLines: number[] = []
+    let endTableLines: number[] = []
+    lines.forEach( (line, index) => {
+      if (line.toLocaleLowerCase().includes('create table')) {
+        startTableLines.push(index);
+      } else if (line.toLocaleLowerCase().startsWith(')')) {
+        endTableLines.push(index);
+      }
+    });
+
+    let columnIndices: number[][] = [];
+
+    const tables = startTableLines.map ( (tableIndex, index) => {
+      return {
+        name: this.getTableNameFromSQLLine(lines[tableIndex]),
+        fields: Array.from(new Array(endTableLines[index] - startTableLines[index] - 1).keys()).map( (value, columnIndex) => {
+          return {
+            name: this.getColumnNameFromSQLLine(lines[tableIndex + columnIndex + 1]),
+            type: "string"
+          }
+        })
+      }
+    });
+
+    this.tableSettingsService.tableSettings.tables = tables;
+
+    console.log(tables);
+
+    // startTableLines.map( (startTable, index) => {
+    //   columnIndices[index] =
+    // });
+
+    console.log(startTableLines);
+    console.log(endTableLines);
+
+    console.log(lines);
+  }
+
+  getTableNameFromSQLLine(tableNameLine: string) {
+    return tableNameLine.split(' ')[2];
+  }
+
+  getColumnNameFromSQLLine(columnNameLine: string) {
+    return columnNameLine.trimStart().split(" ")[0];
   }
   
   addPromptToTables(content: string) {

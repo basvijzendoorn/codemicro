@@ -17,7 +17,8 @@ export interface AIResponse {
 
 export interface Chat {
   text: string,
-  ibex: boolean
+  ibex: boolean,
+  spinner?: boolean
 }
 
 @Injectable({
@@ -35,8 +36,9 @@ export class ChatService {
   types = ["string", "datetime", "date", "number", "integer", "long", "text", "double", "float"]
   chatActive: boolean = true;
   chats: Chat[] = [{
-    text: "As an AI chatbot I can add and remove tables and fields.",
-    ibex: true
+    text: "Please ask ChatGPT to get a database schema in sql with certain characteristics.",
+    ibex: true,
+    spinner: false
   }];
 
   getChats() {
@@ -63,7 +65,18 @@ export class ChatService {
 
   async update(text: string) {
 
+    this.chats.push({
+      text: text,
+      ibex: false
+    })
+
     this.openaiService.downloadopenai(text);
+
+    this.chats.push({
+      text: 'Loading content from ChatGPT, please wait.',
+      ibex: true,
+      spinner: true
+    });
 
     // const completion = await this.openai.chat.completions.create({
     //   messages: [{ role: 'user', content: 'Say this is a test' }],
@@ -72,10 +85,6 @@ export class ChatService {
 
     // console.log(completion.choices);
 
-    // this.chats.push({
-    //   text: text,
-    //   ibex: false
-    // })
 
     // text = text.replaceAll(',',' , ').replaceAll('_',' _ ').replaceAll('.', ' . ').replaceAll('/', ' / ').replaceAll("\"", " \" ")
 
