@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AIResponse } from './chat.service';
+import { AIResponse, ChatService } from './chat.service';
 import { aiurl } from 'src/environments/environment';
-import { TableSettingsService } from './table-settings.service';
+import { Table, TableSettingsService } from './table-settings.service';
+import { SupabaseService } from './supabase.service';
+import { firstValueFrom } from 'rxjs';
 
 export interface OpenAIResponse {
   content: string,
@@ -18,22 +20,24 @@ export class OpenaiService {
     private tableSettingsService: TableSettingsService) { }
 
   async downloadopenai(prompt: string) {
-    this.http.post<OpenAIResponse>(aiurl, {
-        "prompt": prompt
-    }).subscribe(resp => {
-      console.log(resp);
-      // this.addPromptToTables(resp.content);
-      this.addTableToTables(resp.content);
-    })
-  }
+    const resp = await firstValueFrom(this.http.post<OpenAIResponse>(aiurl, {
+      "prompt": prompt
+    }))
 
-  
+    // this.http.post<OpenAIResponse>(aiurl, {
+    //     "prompt": prompt
+    // }).subscribe(resp => {
+      console.log(resp);
+    //   // this.addPromptToTables(resp.content);
+      this.addTableToTables(resp.content);
+    // })
+    // this.addTableToTables(prompt);
+  }
 
   addTableToTables(content: string) {
     // content = 'Here is an example of a database schema in SQL that includes tables for reservations and bookings:\n\n```\nCREATE TABLE reservations (\n  id INT PRIMARY KEY,\n  guest_name VARCHAR(100),\n  check_in_date DATE,\n  check_out_date DATE,\n  room_number INT,\n  total_price DECIMAL(10, 2),\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE bookings (\n  id INT PRIMARY KEY,\n  reservation_id INT,\n  booking_date DATE,\n  FOREIGN KEY (reservation_id) REFERENCES reservations(id)\n);\n```\n\nExplanation:\n- The `reservations` table includes columns for reservation ID, guest name, check-in date, check-out date, room number, total price, and created timestamp.\n- The `bookings` table includes columns for booking ID, reservation ID (foreign key referencing the reservations table), and the booking date.\n\nThese tables can be used to store information about reservations made by guests and bookings made for those reservations. Each reservation will have a unique ID, with relevant details such as guest name, check-in/check-out dates, and room number. The bookings table will have a unique ID for each booking along with its corresponding reservation.'
 
     let lines = content.split('\n');
-
 
     let startTableLines: number[] = []
     let endTableLines: number[] = []
@@ -47,19 +51,76 @@ export class OpenaiService {
 
     let columnIndices: number[][] = [];
 
-    const tables = startTableLines.map ( (tableIndex, index) => {
+    const tables: Table[] = startTableLines.map ( (tableIndex, index) => {
       return {
         name: this.getTableNameFromSQLLine(lines[tableIndex]),
-        fields: Array.from(new Array(endTableLines[index] - startTableLines[index] - 1).keys()).map( (value, columnIndex) => {
-          return {
-            name: this.getColumnNameFromSQLLine(lines[tableIndex + columnIndex + 1]),
-            type: "string"
-          }
+        fields: Array.from(new Array(endTableLines[index] - startTableLines[index] - 1).keys())
+          .map( (value, columnIndex) => lines[tableIndex + columnIndex + 1])
+          .filter( (value, columnIndex) => !value.includes('FOREIGN KEY'))
+          .map( (value, columnIndex) => {
+            return {
+              name: this.getColumnNameFromSQLLine(value),
+              type: this.getTypeFromSQLLine(value)
+            }
         })
       }
     });
 
+    startTableLines.forEach( (tableIndex, tableNumber) => {
+      const tableName = this.getTableNameFromSQLLine(lines[tableIndex]);
+      Array.from(new Array(endTableLines[tableNumber] - startTableLines[tableNumber] - 1).keys())
+        .map( (value, columnIndex) => lines[tableIndex + columnIndex + 1])
+        .filter( (value, columnIndex) => value.includes('FOREIGN KEY'))
+        .forEach( (value, columnIndex) => {
+          const keyLine = value;
+          const keyLineParts = keyLine.trimStart().split(" ");
+          const fieldName = keyLineParts[2].replace("(","").replace(")","");
+          const targetTableName = keyLineParts[4].split('(')[0]
+          const targetFieldName = keyLineParts[4].split('(')[1].replace(')',"")
+
+          const id = this.getRandomChar() + this.getRandomChar()
+            + this.getRandomChar() + this.getRandomChar();
+
+
+          this.tableSettingsService.getRelationships().push({
+            id: id,
+            type: 'onetomany',
+            tableName: tableName,
+            fieldName: fieldName,
+            targetTableName: targetTableName,
+            targetFieldName: targetFieldName
+          });
+
+          const fieldIndex = tables[tableNumber].fields.findIndex((field) => field.name === fieldName);
+          tables[tableNumber].fields[fieldIndex].type = 'onetomany';
+          tables[tableNumber].fields[fieldIndex].referenceId = id;
+
+          tables.find(table => table.name === targetTableName)?.fields.push({
+            type: 'manytoone',
+            name: targetFieldName,
+            referenceId: id
+          });
+
+          // tables[1].fields
+          //   .filter((field) => field.name === fieldName)
+          //   .map((field) => { return {
+          //     type: "onetomany",
+          //     name: fieldName
+          //   }})
+
+          console.log(tables[1].fields);
+          
+          console.log(keyLine);
+          console.log(fieldName);
+          console.log(targetTableName);
+          console.log(targetFieldName);
+        })
+    });
+
     this.tableSettingsService.tableSettings.tables = tables;
+    this.tableSettingsService.saveTables()
+
+
 
     console.log(tables);
 
@@ -73,12 +134,40 @@ export class OpenaiService {
     console.log(lines);
   }
 
+  getRandomChar() {
+    return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+  }
+
   getTableNameFromSQLLine(tableNameLine: string) {
     return tableNameLine.split(' ')[2];
   }
 
   getColumnNameFromSQLLine(columnNameLine: string) {
     return columnNameLine.trimStart().split(" ")[0];
+  }
+
+  
+
+  getTypeFromSQLLine(columnNameLine: string) {
+    const sqlType = columnNameLine.trimStart().split(" ")[1];
+
+    if (sqlType === undefined) return "string";
+
+    console.log(sqlType);
+    if (sqlType.includes('INT')) {
+      return "long"
+    } else if (sqlType.includes('VARCHAR')) {
+      return "string"
+    } else if (sqlType.includes('DATE')) {
+      return "date";
+    } else if (sqlType.includes('DECIMAL')) {
+      return "double";
+    } else if (sqlType.includes('TIMESTAMP')) {
+      return "datetime";
+    } else if (sqlType.includes('FLOAT')) {
+      return "double";
+    }
+    return "string";
   }
   
   addPromptToTables(content: string) {

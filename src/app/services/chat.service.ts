@@ -36,7 +36,7 @@ export class ChatService {
   types = ["string", "datetime", "date", "number", "integer", "long", "text", "double", "float"]
   chatActive: boolean = true;
   chats: Chat[] = [{
-    text: "Please ask ChatGPT to get a database schema in sql with certain characteristics.",
+    text: "Please ask ChatGPT to get a database schema in sql with certain characteristics. For instance: \"Create a database schema in sql code for a hotel.\"",
     ibex: true,
     spinner: false
   }];
@@ -70,13 +70,25 @@ export class ChatService {
       ibex: false
     })
 
-    this.openaiService.downloadopenai(text);
-
     this.chats.push({
       text: 'Loading content from ChatGPT, please wait.',
       ibex: true,
       spinner: true
     });
+
+    this.openaiService.downloadopenai(text).then( (result) => {
+      this.chats.push({
+        text: 'The response from ChatGPT is processed.',
+        ibex: true
+      })
+    }, (error) => {
+      this.chats.push({
+        text: 'The response from ChatGPT is processed.',
+        ibex: true
+      })
+    });
+
+
 
     // const completion = await this.openai.chat.completions.create({
     //   messages: [{ role: 'user', content: 'Say this is a test' }],
